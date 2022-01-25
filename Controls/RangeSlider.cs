@@ -15,7 +15,7 @@ using RangeBase = ModernControlsForAvalonia.Controls.Primitives.RangeBase;
 
 namespace ModernControlsForAvalonia.Controls
 {
-    public enum SelectedRangeDraggedMode
+    public enum RangeDraggedMode
     {
         MoveThumbsBoth,
         MoveThumbsSeparately
@@ -61,10 +61,10 @@ namespace ModernControlsForAvalonia.Controls
             AvaloniaProperty.Register<RangeSlider, bool>(nameof(IsSnapToTickEnabled), false);
 
         /// <summary>
-        /// Defines the <see cref="SelectedRangeDraggedMode"/> property.
+        /// Defines the <see cref="RangeDraggedMode"/> property.
         /// </summary>
-        public static readonly StyledProperty<SelectedRangeDraggedMode> SelectedRangeDraggedModeProperty =
-            AvaloniaProperty.Register<RangeSlider, SelectedRangeDraggedMode>(nameof(SelectedRangeDraggedMode), SelectedRangeDraggedMode.MoveThumbsSeparately);
+        public static readonly StyledProperty<RangeDraggedMode> RangeDraggedModeProperty =
+            AvaloniaProperty.Register<RangeSlider, RangeDraggedMode>(nameof(RangeDraggedMode), RangeDraggedMode.MoveThumbsSeparately);
 
         /// <summary>
         /// Defines the <see cref="TickFrequency"/> property.
@@ -151,10 +151,10 @@ namespace ModernControlsForAvalonia.Controls
         /// <summary>
         /// Gets or sets the SelectedRangeDraggedMode of a <see cref="RangeSlider"/>.
         /// </summary>
-        public SelectedRangeDraggedMode SelectedRangeDraggedMode
+        public RangeDraggedMode RangeDraggedMode
         {
-            get { return GetValue(SelectedRangeDraggedModeProperty); }
-            set { SetValue(SelectedRangeDraggedModeProperty, value); }
+            get { return GetValue(RangeDraggedModeProperty); }
+            set { SetValue(RangeDraggedModeProperty, value); }
         }
 
         /// <summary>
@@ -369,7 +369,7 @@ namespace ModernControlsForAvalonia.Controls
         {
             if (_isDragging)
             {
-                if (SelectedRangeDraggedMode == SelectedRangeDraggedMode.MoveThumbsSeparately)
+                if (RangeDraggedMode == RangeDraggedMode.MoveThumbsSeparately)
                     MoveToPoint(e.GetCurrentPoint(_track), _currentTrackThumb);
                 else
                     MoveToPoint(e.GetCurrentPoint(_track), TrackThumb.Both);
@@ -399,7 +399,7 @@ namespace ModernControlsForAvalonia.Controls
                         MoveToPoint(e.GetCurrentPoint(_track), _currentTrackThumb);
                         break;
                     case "PART_ForegroundButton":
-                        if (SelectedRangeDraggedMode == SelectedRangeDraggedMode.MoveThumbsSeparately)
+                        if (RangeDraggedMode == RangeDraggedMode.MoveThumbsSeparately)
                             MoveToPoint(e.GetCurrentPoint(_track), TrackThumb.Middle);
                         break;
                 }
