@@ -121,8 +121,6 @@ namespace ModernControlsForAvalonia.Controls
             PressedMixin.Attach<RangeSlider>();
             FocusableProperty.OverrideDefaultValue<RangeSlider>(true);
             OrientationProperty.OverrideDefaultValue(typeof(RangeSlider), Orientation.Horizontal);
-            Thumb.DragStartedEvent.AddClassHandler<RangeSlider>((x, e) => x.OnThumbDragStarted(e), RoutingStrategies.Bubble);
-            Thumb.DragCompletedEvent.AddClassHandler<RangeSlider>((x, e) => x.OnThumbDragCompleted(e), RoutingStrategies.Bubble);
 
             LowerSelectedValueProperty.OverrideMetadata<RangeSlider>(new DirectPropertyMetadata<double>(enableDataValidation: true));
             UpperSelectedValueProperty.OverrideMetadata<RangeSlider>(new DirectPropertyMetadata<double>(enableDataValidation: true));
@@ -500,7 +498,7 @@ namespace ModernControlsForAvalonia.Controls
             {
                 return TrackThumb.Upper;
             }
-            else if(Math.Abs(LowerSelectedValue - value) < Math.Abs(UpperSelectedValue - value))
+            else if (Math.Abs(LowerSelectedValue - value) < Math.Abs(UpperSelectedValue - value))
             {
                 return TrackThumb.Lower;
             }
@@ -526,24 +524,6 @@ namespace ModernControlsForAvalonia.Controls
             {
                 UpdatePseudoClasses(change.NewValue.GetValueOrDefault<Orientation>());
             }
-        }
-
-        /// <summary>
-        /// Called when user start dragging the <see cref="Thumb"/>.
-        /// </summary>
-        /// <param name="e"></param>
-        protected virtual void OnThumbDragStarted(VectorEventArgs e)
-        {
-            //_isDragging = true;
-        }
-
-        /// <summary>
-        /// Called when user stop dragging the <see cref="Thumb"/>.
-        /// </summary>
-        /// <param name="e"></param>
-        protected virtual void OnThumbDragCompleted(VectorEventArgs e)
-        {
-            //_isDragging = false;
         }
 
         /// <summary>
@@ -593,7 +573,6 @@ namespace ModernControlsForAvalonia.Controls
 
             return value;
         }
-
 
         private void UpdatePseudoClasses(Orientation o)
         {
