@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernControlsForAvalonia", "ModernControlsForAvalonia.csproj", "{1AFE7DBC-B553-4859-92E7-F3EDA38BD69A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1AFE7DBC-B553-4859-92E7-F3EDA38BD69A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AFE7DBC-B553-4859-92E7-F3EDA38BD69A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AFE7DBC-B553-4859-92E7-F3EDA38BD69A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AFE7DBC-B553-4859-92E7-F3EDA38BD69A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BDEE185B-88C1-4DC8-847E-1530563072D1}
+	EndGlobalSection
+EndGlobal
