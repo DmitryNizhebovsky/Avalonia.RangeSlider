@@ -385,6 +385,7 @@ namespace ModernControlsForAvalonia.Controls
             if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
             {
                 _isDragging = true;
+                _previousValue = GetValueByPointOnTrack(e.GetCurrentPoint(this));
                 _currentTrackThumb = GetNearestTrackThumb(e.GetCurrentPoint(this));
 
                 if (trackButton == TrackButton.Background)
@@ -431,6 +432,7 @@ namespace ModernControlsForAvalonia.Controls
                     break;
                 case TrackThumb.Both:
                     var delta = value - _previousValue;
+                    _previousValue = value;
 
                     if ((Math.Abs(LowerSelectedValue - Minimum) <= double.Epsilon && delta < 0.0)
                         || (Math.Abs(UpperSelectedValue - Maximum) <= double.Epsilon && delta > 0.0))
@@ -440,8 +442,6 @@ namespace ModernControlsForAvalonia.Controls
                     UpperSelectedValue += delta;
                     break;
             }
-
-            _previousValue = value;
         }
 
         private double GetValueByPointOnTrack(PointerPoint point)
@@ -472,9 +472,6 @@ namespace ModernControlsForAvalonia.Controls
             var calcVal = Math.Abs(invert - logicalPos);
             var range = Maximum - Minimum;
             var finalValue = calcVal * range + Minimum;
-
-            if (Math.Abs(_previousValue) <= double.Epsilon)
-                _previousValue = finalValue;
 
             return finalValue;
         }
