@@ -36,6 +36,12 @@ namespace ModernControlsForAvalonia.Controls
             Both
         };
 
+        private enum TrackButton
+        {
+            Background,
+            Foreground
+        };
+
         /// <summary>
         /// Defines the <see cref="Orientation"/> property.
         /// </summary>
@@ -211,6 +217,10 @@ namespace ModernControlsForAvalonia.Controls
         {
             base.OnApplyTemplate(e);
 
+            _track = e.NameScope.Find<RangeTrack>("PART_Track");
+            _backgroundButton = e.NameScope.Find<Button>("PART_BackgroundButton");
+            _foregroundButton = e.NameScope.Find<Button>("PART_ForegroundButton");
+
             _backgroundButtonPressDispose?.Dispose();
             _foregroundButtonPressDispose?.Dispose();
             _backgroundButtonReleaseDispose?.Dispose();
@@ -224,23 +234,30 @@ namespace ModernControlsForAvalonia.Controls
             _upperThumbPointerPressedDispose?.Dispose();
             _upperThumbPointerReleaseDispose?.Dispose();
 
-            _track = e.NameScope.Find<RangeTrack>("PART_Track");
-            _backgroundButton = e.NameScope.Find<Button>("PART_BackgroundButton");
-            _foregroundButton = e.NameScope.Find<Button>("PART_ForegroundButton");
+            _backgroundButtonPressDispose = _backgroundButton?
+                .AddDisposableHandler(PointerPressedEvent, (s, e) => TrackPressed(s, e, TrackButton.Background), RoutingStrategies.Tunnel);
+            _backgroundButtonReleaseDispose = _backgroundButton?
+                .AddDisposableHandler(PointerReleasedEvent, TrackReleased, RoutingStrategies.Tunnel);
 
-            _backgroundButtonPressDispose = _backgroundButton?.AddDisposableHandler(PointerPressedEvent, TrackPressed, RoutingStrategies.Tunnel);
-            _backgroundButtonReleaseDispose = _backgroundButton?.AddDisposableHandler(PointerReleasedEvent, TrackReleased, RoutingStrategies.Tunnel);
+            _foregroundButtonPressDispose = _foregroundButton?
+                .AddDisposableHandler(PointerPressedEvent, (s, e) => TrackPressed(s, e, TrackButton.Foreground), RoutingStrategies.Tunnel);
+            _foregroundButtonReleaseDispose = _foregroundButton?
+                .AddDisposableHandler(PointerReleasedEvent, TrackReleased, RoutingStrategies.Tunnel);
 
-            _foregroundButtonPressDispose = _foregroundButton?.AddDisposableHandler(PointerPressedEvent, TrackPressed, RoutingStrategies.Tunnel);
-            _foregroundButtonReleaseDispose = _foregroundButton?.AddDisposableHandler(PointerReleasedEvent, TrackReleased, RoutingStrategies.Tunnel);
+            _lowerThumbPointerMovedDispose = _track.LowerThumb?
+                .AddDisposableHandler(PointerMovedEvent, ThumbMoved, RoutingStrategies.Tunnel);
+            _upperThumbPointerMovedDispose = _track.UpperThumb?
+                .AddDisposableHandler(PointerMovedEvent, ThumbMoved, RoutingStrategies.Tunnel);
 
-            _lowerThumbPointerMovedDispose = _track.LowerThumb?.AddDisposableHandler(PointerMovedEvent, ThumbMoved, RoutingStrategies.Tunnel);
-            _upperThumbPointerMovedDispose = _track.UpperThumb?.AddDisposableHandler(PointerMovedEvent, ThumbMoved, RoutingStrategies.Tunnel);
+            _lowerThumbPointerPressedDispose = _track.LowerThumb?
+                .AddDisposableHandler(PointerPressedEvent, (s, e) => ThumbPressed(s, e, TrackThumb.Lower), RoutingStrategies.Tunnel);
+            _lowerThumbPointerReleaseDispose = _track.LowerThumb?
+                .AddDisposableHandler(PointerReleasedEvent, ThumbReleased, RoutingStrategies.Tunnel);
 
-            _lowerThumbPointerPressedDispose = _track.LowerThumb?.AddDisposableHandler(PointerPressedEvent, ThumbPressed, RoutingStrategies.Tunnel);
-            _lowerThumbPointerReleaseDispose = _track.LowerThumb?.AddDisposableHandler(PointerReleasedEvent, ThumbReleased, RoutingStrategies.Tunnel);
-            _upperThumbPointerPressedDispose = _track.UpperThumb?.AddDisposableHandler(PointerPressedEvent, ThumbPressed, RoutingStrategies.Tunnel);
-            _upperThumbPointerReleaseDispose = _track.UpperThumb?.AddDisposableHandler(PointerReleasedEvent, ThumbReleased, RoutingStrategies.Tunnel);
+            _upperThumbPointerPressedDispose = _track.UpperThumb?
+                .AddDisposableHandler(PointerPressedEvent, (s, e) => ThumbPressed(s, e, TrackThumb.Upper), RoutingStrategies.Tunnel);
+            _upperThumbPointerReleaseDispose = _track.UpperThumb?
+                .AddDisposableHandler(PointerReleasedEvent, ThumbReleased, RoutingStrategies.Tunnel);
 
             _pointerMovedDispose = this.AddDisposableHandler(PointerMovedEvent, TrackMoved, RoutingStrategies.Tunnel);
             _pointerReleasedDispose = this.AddDisposableHandler(PointerReleasedEvent, TrackReleased, RoutingStrategies.Tunnel);
@@ -345,18 +362,10 @@ namespace ModernControlsForAvalonia.Controls
             }
         }
 
-        private void ThumbMoved(object? sender, PointerEventArgs e)
-        {
-            if (_isThumbDragging)
-                MoveToPoint(e.GetCurrentPoint(_track), _currentTrackThumb);
-        }
-
-        private void ThumbPressed(object? sender, PointerPressedEventArgs e)
+        private void ThumbPressed(object? sender, PointerPressedEventArgs e, TrackThumb trackThumb)
         {
             _isThumbDragging = true;
-
-            if (_currentTrackThumb == TrackThumb.None)
-                _currentTrackThumb = GetNearestTrackThumb(e.GetCurrentPoint(_track));
+            _currentTrackThumb = trackThumb;
         }
 
         private void ThumbReleased(object? sender, PointerReleasedEventArgs e)
@@ -365,14 +374,23 @@ namespace ModernControlsForAvalonia.Controls
             _currentTrackThumb = TrackThumb.None;
         }
 
-        private void TrackMoved(object? sender, PointerEventArgs e)
+        private void ThumbMoved(object? sender, PointerEventArgs e)
         {
-            if (_isDragging)
+            if (_isThumbDragging)
+                MoveToPoint(e.GetCurrentPoint(this), _currentTrackThumb);
+        }
+
+        private void TrackPressed(object? sender, PointerPressedEventArgs e, TrackButton trackButton)
+        {
+            if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
             {
-                if (RangeDraggedMode == RangeDraggedMode.MoveThumbsSeparately)
-                    MoveToPoint(e.GetCurrentPoint(_track), _currentTrackThumb);
-                else
-                    MoveToPoint(e.GetCurrentPoint(_track), TrackThumb.Both);
+                _isDragging = true;
+                _currentTrackThumb = GetNearestTrackThumb(e.GetCurrentPoint(this));
+
+                if (trackButton == TrackButton.Background)
+                    MoveToPoint(e.GetCurrentPoint(this), _currentTrackThumb);
+                else if (RangeDraggedMode == RangeDraggedMode.MoveThumbsSeparately)
+                    MoveToPoint(e.GetCurrentPoint(this), TrackThumb.Middle);
             }
         }
 
@@ -382,27 +400,14 @@ namespace ModernControlsForAvalonia.Controls
             _currentTrackThumb = TrackThumb.None;
         }
 
-        private void TrackPressed(object? sender, PointerPressedEventArgs e)
+        private void TrackMoved(object? sender, PointerEventArgs e)
         {
-            _isDragging = true;
-
-            if (_currentTrackThumb == TrackThumb.None)
-                _currentTrackThumb = GetNearestTrackThumb(e.GetCurrentPoint(_track));
-
-            if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+            if (_isDragging)
             {
-                Button? button = sender as Button;
-
-                switch (button?.Name)
-                {
-                    case "PART_BackgroundButton":
-                        MoveToPoint(e.GetCurrentPoint(_track), _currentTrackThumb);
-                        break;
-                    case "PART_ForegroundButton":
-                        if (RangeDraggedMode == RangeDraggedMode.MoveThumbsSeparately)
-                            MoveToPoint(e.GetCurrentPoint(_track), TrackThumb.Middle);
-                        break;
-                }
+                if (RangeDraggedMode == RangeDraggedMode.MoveThumbsSeparately)
+                    MoveToPoint(e.GetCurrentPoint(this), _currentTrackThumb);
+                else
+                    MoveToPoint(e.GetCurrentPoint(this), TrackThumb.Both);
             }
         }
 
