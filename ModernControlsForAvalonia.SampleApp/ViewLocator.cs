@@ -1,9 +1,9 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using ModernControlsForAvalonia.ViewModels;
+using ModernControlsForAvalonia.SampleApp.ViewModels;
 using System;
 
-namespace ModernControlsForAvalonia
+namespace ModernControlsForAvalonia.SampleApp
 {
     public class ViewLocator : IDataTemplate
     {

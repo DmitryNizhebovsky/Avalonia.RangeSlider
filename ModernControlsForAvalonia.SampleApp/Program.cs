@@ -1,7 +1,7 @@
 using Avalonia;
 using Avalonia.ReactiveUI;
 
-namespace ModernControlsForAvalonia
+namespace ModernControlsForAvalonia.SampleApp
 {
     class Program
     {
