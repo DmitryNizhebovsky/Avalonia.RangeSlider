@@ -93,11 +93,23 @@
 										</localPrimitives:RangeTrack.ForegroundButton>
 										
 										<localPrimitives:RangeTrack.LowerThumb>
-											<Thumb Classes="SliderThumbStyle" Name="PART_LowerThumb" Margin="0" Padding="0" DataContext="{TemplateBinding LowerSelectedValue}" Height="{DynamicResource SliderHorizontalThumbHeight}" Width="{DynamicResource SliderHorizontalThumbWidth}" IsHitTestVisible="False" />
+											<Thumb Classes="LowerThumbStyle" Name="PART_LowerThumb" Margin="0" Padding="0" DataContext="{TemplateBinding LowerSelectedValue}" Height="{DynamicResource SliderHorizontalThumbHeight}" Width="{DynamicResource SliderHorizontalThumbWidth}">
+												<FlyoutBase.AttachedFlyout>
+													<Flyout Placement="Top" ShowMode="TransientWithDismissOnPointerMoveAway">
+														<TextBlock Text="{Binding #PART_Track.LowerSelectedValue}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+													</Flyout>
+												</FlyoutBase.AttachedFlyout>
+											</Thumb>
 										</localPrimitives:RangeTrack.LowerThumb>
 										
 										<localPrimitives:RangeTrack.UpperThumb>
-											<Thumb Classes="SliderThumbStyle" Name="PART_UpperThumb" Margin="0" Padding="0" DataContext="{TemplateBinding UpperSelectedValue}" Height="{DynamicResource SliderHorizontalThumbHeight}" Width="{DynamicResource SliderHorizontalThumbWidth}" IsHitTestVisible="False" />
+											<Thumb Classes="UpperThumbStyle" Name="PART_UpperThumb" Margin="0" Padding="0" DataContext="{TemplateBinding UpperSelectedValue}" Height="{DynamicResource SliderHorizontalThumbHeight}" Width="{DynamicResource SliderHorizontalThumbWidth}">
+												<FlyoutBase.AttachedFlyout>
+													<Flyout Placement="Top" ShowMode="TransientWithDismissOnPointerMoveAway">
+														<TextBlock Text="{Binding #PART_Track.UpperSelectedValue}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+													</Flyout>
+												</FlyoutBase.AttachedFlyout>
+											</Thumb>
 										</localPrimitives:RangeTrack.UpperThumb>
 									
 								</localPrimitives:RangeTrack>
@@ -164,11 +176,23 @@
 										</localPrimitives:RangeTrack.ForegroundButton>
 										
 										<localPrimitives:RangeTrack.LowerThumb>
-											<Thumb Classes="SliderThumbStyle" Name="PART_LowerThumb" Margin="0" Padding="0" DataContext="{TemplateBinding LowerSelectedValue}" Height="{DynamicResource SliderHorizontalThumbHeight}" Width="{DynamicResource SliderHorizontalThumbWidth}" IsHitTestVisible="False"/>
+											<Thumb Classes="LowerThumbStyle" Name="PART_LowerThumb" Margin="0" Padding="0" DataContext="{TemplateBinding LowerSelectedValue}" Height="{DynamicResource SliderHorizontalThumbHeight}" Width="{DynamicResource SliderHorizontalThumbWidth}">
+												<FlyoutBase.AttachedFlyout>
+													<Flyout Placement="Top" ShowMode="TransientWithDismissOnPointerMoveAway">
+														<TextBlock Text="{Binding #PART_Track.LowerSelectedValue}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+													</Flyout>
+												</FlyoutBase.AttachedFlyout>
+											</Thumb>
 										</localPrimitives:RangeTrack.LowerThumb>
 										
 										<localPrimitives:RangeTrack.UpperThumb>
-											<Thumb Classes="SliderThumbStyle" Name="PART_UpperThumb" Margin="0" Padding="0" DataContext="{TemplateBinding UpperSelectedValue}" Height="{DynamicResource SliderHorizontalThumbHeight}" Width="{DynamicResource SliderHorizontalThumbWidth}" IsHitTestVisible="False"/>
+											<Thumb Classes="UpperThumbStyle" Name="PART_UpperThumb" Margin="0" Padding="0" DataContext="{TemplateBinding UpperSelectedValue}" Height="{DynamicResource SliderHorizontalThumbHeight}" Width="{DynamicResource SliderHorizontalThumbWidth}">
+												<FlyoutBase.AttachedFlyout>
+													<Flyout Placement="Top" ShowMode="TransientWithDismissOnPointerMoveAway">
+														<TextBlock Text="{Binding #PART_Track.UpperSelectedValue}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+													</Flyout>
+												</FlyoutBase.AttachedFlyout>
+											</Thumb>
 										</localPrimitives:RangeTrack.UpperThumb>
 									</localPrimitives:RangeTrack>
 								</Grid>
@@ -180,12 +204,31 @@
 		</Setter>
 	</Style>
 
-	<Style Selector="local|RangeSlider /template/ Thumb.SliderThumbStyle">
+	<Style Selector="local|RangeSlider /template/ Thumb.LowerThumbStyle">
 		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="Background" Value="{DynamicResource SliderThumbBackground}"/>
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate>
-					<Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{DynamicResource SliderThumbCornerRadius}" />
+					<Border Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							CornerRadius="{DynamicResource SliderThumbCornerRadius}"/>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style Selector="local|RangeSlider /template/ Thumb.UpperThumbStyle">
+		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="Background" Value="{DynamicResource SliderThumbBackground}"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate>
+					<Border Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							CornerRadius="{DynamicResource SliderThumbCornerRadius}"/>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
@@ -212,7 +255,11 @@
 
 	<!-- Normal State -->
 
-	<Style Selector="local|RangeSlider /template/ Thumb.SliderThumbStyle">
+	<Style Selector="local|RangeSlider /template/ Thumb.LowerThumbStyle">
+		<Setter Property="Background" Value="{DynamicResource SliderThumbBackground}" />
+	</Style>
+
+	<Style Selector="local|RangeSlider /template/ Thumb.UpperThumbStyle">
 		<Setter Property="Background" Value="{DynamicResource SliderThumbBackground}" />
 	</Style>
 
@@ -257,7 +304,11 @@
 		<Setter Property="Background" Value="{DynamicResource SliderTrackValueFillDisabled}" />
 	</Style>
 
-	<Style Selector="local|RangeSlider:disabled /template/ Thumb.SliderThumbStyle">
+	<Style Selector="local|RangeSlider:disabled /template/ Thumb.LowerThumbStyle">
+		<Setter Property="Background" Value="{DynamicResource SliderThumbBackgroundDisabled}" />
+	</Style>
+
+	<Style Selector="local|RangeSlider:disabled /template/ Thumb.UpperThumbStyle">
 		<Setter Property="Background" Value="{DynamicResource SliderThumbBackgroundDisabled}" />
 	</Style>
 
@@ -278,7 +329,11 @@
 		<Setter Property="Background" Value="{DynamicResource SliderTrackValueFillPointerOver}" />
 	</Style>
 
-	<Style Selector="local|RangeSlider:pointerover /template/ Thumb.SliderThumbStyle">
+	<Style Selector="Thumb.LowerThumbStyle:pointerover">
+		<Setter Property="Background" Value="{DynamicResource SliderThumbBackgroundPointerOver}" />
+	</Style>
+
+	<Style Selector="Thumb.UpperThumbStyle:pointerover">
 		<Setter Property="Background" Value="{DynamicResource SliderThumbBackgroundPointerOver}" />
 	</Style>
 
@@ -295,7 +350,11 @@
 		<Setter Property="Background" Value="{DynamicResource SliderTrackValueFillPressed}" />
 	</Style>
 
-	<Style Selector="local|RangeSlider:pressed /template/ Thumb.SliderThumbStyle">
+	<Style Selector="Thumb.LowerThumbStyle:pressed">
+		<Setter Property="Background" Value="{DynamicResource SliderThumbBackgroundPressed}" />
+	</Style>
+
+	<Style Selector="Thumb.UpperThumbStyle:pressed">
 		<Setter Property="Background" Value="{DynamicResource SliderThumbBackgroundPressed}" />
 	</Style>
 
@@ -303,7 +362,11 @@
 		<Setter Property="Background" Value="{DynamicResource SliderContainerBackgroundPressed}" />
 	</Style>
 
-	<Style Selector="local|RangeSlider:error /template/ Thumb.SliderThumbStyle">
+	<Style Selector="local|RangeSlider:error /template/ Thumb.LowerThumbStyle">
+		<Setter Property="Background" Value="{DynamicResource SystemControlErrorTextForegroundBrush}" />
+	</Style>
+
+	<Style Selector="local|RangeSlider:error /template/ Thumb.UpperThumbStyle">
 		<Setter Property="Background" Value="{DynamicResource SystemControlErrorTextForegroundBrush}" />
 	</Style>
 

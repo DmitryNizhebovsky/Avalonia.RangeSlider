@@ -92,11 +92,9 @@ namespace ModernControlsForAvalonia.Controls
         private double _previousValue = 0.0;
         private bool _isDragging = false;
         private RangeTrack _track = null!;
+        private Thumb _lowerThumb = null!;
+        private Thumb _upperThumb = null!;
         private TrackThumb _currentTrackThumb = TrackThumb.None;
-        private IDisposable? _backgroundButtonPressDispose = null!;
-        private IDisposable? _backgroundButtonReleaseDispose = null!;
-        private IDisposable? _pointerMovedDispose = null!;
-        private IDisposable? _pointerReleasedDispose = null!;
 
         private const double Tolerance = 0.0001;
 
@@ -203,16 +201,17 @@ namespace ModernControlsForAvalonia.Controls
             base.OnApplyTemplate(e);
 
             _track = e.NameScope.Find<RangeTrack>("PART_Track");
-            _backgroundButtonPressDispose?.Dispose();
-            _backgroundButtonReleaseDispose?.Dispose();
-            _pointerMovedDispose?.Dispose();
-            _pointerReleasedDispose?.Dispose();
+            _lowerThumb = e.NameScope.Find<Thumb>("PART_LowerThumb");
+            _upperThumb = e.NameScope.Find<Thumb>("PART_UpperThumb");
 
-            _backgroundButtonPressDispose = this.AddDisposableHandler(PointerPressedEvent, TrackPressed, RoutingStrategies.Tunnel);
-            _backgroundButtonReleaseDispose = this.AddDisposableHandler(PointerReleasedEvent, TrackReleased, RoutingStrategies.Tunnel);
+            AddHandler(PointerPressedEvent, TrackPressed, RoutingStrategies.Tunnel);
+            AddHandler(PointerReleasedEvent, TrackReleased, RoutingStrategies.Tunnel);
 
-            _pointerMovedDispose = this.AddDisposableHandler(PointerMovedEvent, TrackMoved, RoutingStrategies.Tunnel);
-            _pointerReleasedDispose = this.AddDisposableHandler(PointerReleasedEvent, TrackReleased, RoutingStrategies.Tunnel);
+            AddHandler(PointerMovedEvent, TrackMoved, RoutingStrategies.Tunnel);
+            AddHandler(PointerReleasedEvent, TrackReleased, RoutingStrategies.Tunnel);
+
+            _lowerThumb.AddHandler(PointerMovedEvent, PointerOverThumb, RoutingStrategies.Tunnel);
+            _upperThumb.AddHandler(PointerMovedEvent, PointerOverThumb, RoutingStrategies.Tunnel);
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
@@ -312,6 +311,12 @@ namespace ModernControlsForAvalonia.Controls
             {
                 LowerSelectedValue = next;
             }
+        }
+
+        private void PointerOverThumb(object? sender, PointerEventArgs e)
+        {
+            if (sender is Thumb thumb)
+                FlyoutBase.ShowAttachedFlyout(thumb);
         }
 
         private void TrackPressed(object? sender, PointerPressedEventArgs e)
