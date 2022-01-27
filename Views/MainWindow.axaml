@@ -36,6 +36,7 @@
 			<StackPanel Orientation="Horizontal" Grid.Row="1" >
 				<local:RangeSlider Minimum="0" Maximum="100" LowerSelectedValue="25" UpperSelectedValue="75" IsThumbOverlap="True" Orientation="Vertical" IsEnabled="False"/>
 				<local:RangeSlider Minimum="0" Maximum="100" LowerSelectedValue="{Binding LowerSelected}" UpperSelectedValue="{Binding UpperSelected}" IsThumbOverlap="True" Orientation="Vertical"/>
+				<local:RangeSlider Minimum="0" Maximum="100" LowerSelectedValue="{Binding LowerSelected}" UpperSelectedValue="{Binding UpperSelected}" IsThumbOverlap="True" RangeDraggedMode="MoveThumbsBoth" Orientation="Vertical"/>
 				<local:RangeSlider Minimum="0" Maximum="100" LowerSelectedValue="{Binding LowerSelected}" UpperSelectedValue="{Binding UpperSelected}" IsThumbOverlap="False" Orientation="Vertical"/>
 				<local:RangeSlider Minimum="0" Maximum="100" LowerSelectedValue="{Binding LowerSelected}" UpperSelectedValue="{Binding UpperSelected}" IsThumbOverlap="True" Orientation="Vertical" TickFrequency="5" IsSnapToTickEnabled="True" TickPlacement="TopLeft"/>
 				<local:RangeSlider Minimum="0" Maximum="100" LowerSelectedValue="{Binding LowerSelected}" UpperSelectedValue="{Binding UpperSelected}" IsThumbOverlap="False" Orientation="Vertical" TickFrequency="5" IsSnapToTickEnabled="True" TickPlacement="TopLeft"/>

@@ -31,15 +31,13 @@ namespace ModernControlsForAvalonia.Controls
         {
             None,
             Upper,
+            InnerUpper,
+            OuterUpper,
             Lower,
+            InnerLower,
+            OuterLower,
             Middle,
             Both
-        };
-
-        private enum TrackButton
-        {
-            Background,
-            Foreground
         };
 
         /// <summary>
@@ -91,25 +89,14 @@ namespace ModernControlsForAvalonia.Controls
             TickBar.TicksProperty.AddOwner<RangeSlider>();
 
         // Slider required parts
-        private bool _isDragging = false;
-        private bool _isThumbDragging = false;
         private double _previousValue = 0.0;
+        private bool _isDragging = false;
         private RangeTrack _track = null!;
-        private Button _backgroundButton = null!;
-        private Button _foregroundButton = null!;
         private TrackThumb _currentTrackThumb = TrackThumb.None;
         private IDisposable? _backgroundButtonPressDispose = null!;
-        private IDisposable? _foregroundButtonPressDispose = null!;
         private IDisposable? _backgroundButtonReleaseDispose = null!;
-        private IDisposable? _foregroundButtonReleaseDispose = null!;
         private IDisposable? _pointerMovedDispose = null!;
         private IDisposable? _pointerReleasedDispose = null!;
-        private IDisposable? _lowerThumbPointerMovedDispose = null!;
-        private IDisposable? _upperThumbPointerMovedDispose = null!;
-        private IDisposable? _lowerThumbPointerPressedDispose = null!;
-        private IDisposable? _lowerThumbPointerReleaseDispose = null!;
-        private IDisposable? _upperThumbPointerPressedDispose = null!;
-        private IDisposable? _upperThumbPointerReleaseDispose = null!;
 
         private const double Tolerance = 0.0001;
 
@@ -216,46 +203,13 @@ namespace ModernControlsForAvalonia.Controls
             base.OnApplyTemplate(e);
 
             _track = e.NameScope.Find<RangeTrack>("PART_Track");
-            _backgroundButton = e.NameScope.Find<Button>("PART_BackgroundButton");
-            _foregroundButton = e.NameScope.Find<Button>("PART_ForegroundButton");
-
             _backgroundButtonPressDispose?.Dispose();
-            _foregroundButtonPressDispose?.Dispose();
             _backgroundButtonReleaseDispose?.Dispose();
-            _foregroundButtonReleaseDispose?.Dispose();
             _pointerMovedDispose?.Dispose();
             _pointerReleasedDispose?.Dispose();
-            _lowerThumbPointerMovedDispose?.Dispose();
-            _upperThumbPointerMovedDispose?.Dispose();
-            _lowerThumbPointerPressedDispose?.Dispose();
-            _lowerThumbPointerReleaseDispose?.Dispose();
-            _upperThumbPointerPressedDispose?.Dispose();
-            _upperThumbPointerReleaseDispose?.Dispose();
 
-            _backgroundButtonPressDispose = _backgroundButton?
-                .AddDisposableHandler(PointerPressedEvent, (s, e) => TrackPressed(s, e, TrackButton.Background), RoutingStrategies.Tunnel);
-            _backgroundButtonReleaseDispose = _backgroundButton?
-                .AddDisposableHandler(PointerReleasedEvent, TrackReleased, RoutingStrategies.Tunnel);
-
-            _foregroundButtonPressDispose = _foregroundButton?
-                .AddDisposableHandler(PointerPressedEvent, (s, e) => TrackPressed(s, e, TrackButton.Foreground), RoutingStrategies.Tunnel);
-            _foregroundButtonReleaseDispose = _foregroundButton?
-                .AddDisposableHandler(PointerReleasedEvent, TrackReleased, RoutingStrategies.Tunnel);
-
-            _lowerThumbPointerMovedDispose = _track.LowerThumb?
-                .AddDisposableHandler(PointerMovedEvent, ThumbMoved, RoutingStrategies.Tunnel);
-            _upperThumbPointerMovedDispose = _track.UpperThumb?
-                .AddDisposableHandler(PointerMovedEvent, ThumbMoved, RoutingStrategies.Tunnel);
-
-            _lowerThumbPointerPressedDispose = _track.LowerThumb?
-                .AddDisposableHandler(PointerPressedEvent, (s, e) => ThumbPressed(s, e, TrackThumb.Lower), RoutingStrategies.Tunnel);
-            _lowerThumbPointerReleaseDispose = _track.LowerThumb?
-                .AddDisposableHandler(PointerReleasedEvent, ThumbReleased, RoutingStrategies.Tunnel);
-
-            _upperThumbPointerPressedDispose = _track.UpperThumb?
-                .AddDisposableHandler(PointerPressedEvent, (s, e) => ThumbPressed(s, e, TrackThumb.Upper), RoutingStrategies.Tunnel);
-            _upperThumbPointerReleaseDispose = _track.UpperThumb?
-                .AddDisposableHandler(PointerReleasedEvent, ThumbReleased, RoutingStrategies.Tunnel);
+            _backgroundButtonPressDispose = this.AddDisposableHandler(PointerPressedEvent, TrackPressed, RoutingStrategies.Tunnel);
+            _backgroundButtonReleaseDispose = this.AddDisposableHandler(PointerReleasedEvent, TrackReleased, RoutingStrategies.Tunnel);
 
             _pointerMovedDispose = this.AddDisposableHandler(PointerMovedEvent, TrackMoved, RoutingStrategies.Tunnel);
             _pointerReleasedDispose = this.AddDisposableHandler(PointerReleasedEvent, TrackReleased, RoutingStrategies.Tunnel);
@@ -360,36 +314,20 @@ namespace ModernControlsForAvalonia.Controls
             }
         }
 
-        private void ThumbPressed(object? sender, PointerPressedEventArgs e, TrackThumb trackThumb)
-        {
-            _isThumbDragging = true;
-            _currentTrackThumb = trackThumb;
-        }
-
-        private void ThumbReleased(object? sender, PointerReleasedEventArgs e)
-        {
-            _isThumbDragging = false;
-            _currentTrackThumb = TrackThumb.None;
-        }
-
-        private void ThumbMoved(object? sender, PointerEventArgs e)
-        {
-            if (_isThumbDragging)
-                MoveToPoint(e.GetCurrentPoint(this), _currentTrackThumb);
-        }
-
-        private void TrackPressed(object? sender, PointerPressedEventArgs e, TrackButton trackButton)
+        private void TrackPressed(object? sender, PointerPressedEventArgs e)
         {
             if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
             {
                 _isDragging = true;
-                _previousValue = GetValueByPointOnTrack(e.GetCurrentPoint(this));
-                _currentTrackThumb = GetNearestTrackThumb(e.GetCurrentPoint(this));
 
-                if (trackButton == TrackButton.Background)
-                    MoveToPoint(e.GetCurrentPoint(this), _currentTrackThumb);
+                var pointerCoord = e.GetCurrentPoint(this).Position;
+                _previousValue = GetValueByPointOnTrack(pointerCoord);
+                _currentTrackThumb = GetNearestTrackThumb(pointerCoord);
+
+                if (!IsPressedOnTrackBetweenThumbs() && RangeDraggedMode == RangeDraggedMode.MoveThumbsBoth)
+                    MoveToPoint(pointerCoord, _currentTrackThumb);
                 else if (RangeDraggedMode == RangeDraggedMode.MoveThumbsSeparately)
-                    MoveToPoint(e.GetCurrentPoint(this), TrackThumb.Middle);
+                    MoveToPoint(pointerCoord, _currentTrackThumb);
             }
         }
 
@@ -403,23 +341,31 @@ namespace ModernControlsForAvalonia.Controls
         {
             if (_isDragging)
             {
-                if (RangeDraggedMode == RangeDraggedMode.MoveThumbsSeparately)
-                    MoveToPoint(e.GetCurrentPoint(this), _currentTrackThumb);
-                else
-                    MoveToPoint(e.GetCurrentPoint(this), TrackThumb.Both);
+                var pointerCoord = e.GetCurrentPoint(this).Position;
+
+                if (!IsPressedOnTrackBetweenThumbs() && RangeDraggedMode == RangeDraggedMode.MoveThumbsBoth)
+                    MoveToPoint(pointerCoord, _currentTrackThumb);
+                if (IsPressedOnTrackBetweenThumbs() && RangeDraggedMode == RangeDraggedMode.MoveThumbsBoth)
+                    MoveToPoint(pointerCoord, TrackThumb.Both);
+                else if (RangeDraggedMode == RangeDraggedMode.MoveThumbsSeparately)
+                    MoveToPoint(pointerCoord, _currentTrackThumb);
             }
         }
 
-        private void MoveToPoint(PointerPoint x, TrackThumb trackThumb)
+        private void MoveToPoint(Point pointerCoord, TrackThumb trackThumb)
         {
-            var value = GetValueByPointOnTrack(x);
+            var value = GetValueByPointOnTrack(pointerCoord);
 
             switch (trackThumb)
             {
                 case TrackThumb.Upper:
+                case TrackThumb.InnerUpper:
+                case TrackThumb.OuterUpper:
                     UpperSelectedValue = IsSnapToTickEnabled ? SnapToTick(value) : value;
                     break;
                 case TrackThumb.Lower:
+                case TrackThumb.InnerLower:
+                case TrackThumb.OuterLower:
                     LowerSelectedValue = IsSnapToTickEnabled ? SnapToTick(value) : value;
                     break;
                 case TrackThumb.Middle:
@@ -432,8 +378,8 @@ namespace ModernControlsForAvalonia.Controls
                     var delta = value - _previousValue;
                     _previousValue = value;
 
-                    if ((Math.Abs(LowerSelectedValue - Minimum) <= double.Epsilon && delta < 0.0)
-                        || (Math.Abs(UpperSelectedValue - Maximum) <= double.Epsilon && delta > 0.0))
+                    if ((Math.Abs(LowerSelectedValue - Minimum) <= Tolerance && delta < 0.0)
+                        || (Math.Abs(UpperSelectedValue - Maximum) <= Tolerance && delta > 0.0))
                         return;
 
                     LowerSelectedValue += delta;
@@ -442,11 +388,11 @@ namespace ModernControlsForAvalonia.Controls
             }
         }
 
-        private double GetValueByPointOnTrack(PointerPoint point)
+        private double GetValueByPointOnTrack(Point pointerCoord)
         {
             var orient = Orientation == Orientation.Horizontal;
             var trackLength = orient ? _track.Bounds.Width : _track.Bounds.Height;
-            var pointNum = orient ? point.Position.X : point.Position.Y;
+            var pointNum = orient ? pointerCoord.X : pointerCoord.Y;
             var thumbLength = orient ? _track.LowerThumb.Width : _track.LowerThumb.Height;
 
             // Just add epsilon to avoid NaN in case 0/0
@@ -474,37 +420,48 @@ namespace ModernControlsForAvalonia.Controls
             return finalValue;
         }
 
-        private TrackThumb GetNearestTrackThumb(PointerPoint x)
+        private bool IsPressedOnTrackBetweenThumbs()
         {
-            var value = GetValueByPointOnTrack(x);
+            return _currentTrackThumb == TrackThumb.InnerLower || _currentTrackThumb == TrackThumb.InnerUpper;
+        }
 
-            if (IsThumbOverlap && Math.Abs(LowerSelectedValue - UpperSelectedValue) < double.Epsilon
-                && Math.Abs(LowerSelectedValue - Minimum) < double.Epsilon)
+        private TrackThumb GetNearestTrackThumb(Point pointerCoord)
+        {
+            var orient = Orientation == Orientation.Horizontal;
+
+            var lowerThumbPos = orient ? _track.LowerThumb.Bounds.Position.X : _track.LowerThumb.Bounds.Position.Y;
+            var upperThumbPos = orient ? _track.UpperThumb.Bounds.Position.X : _track.UpperThumb.Bounds.Position.Y;
+            var thumbWidth = orient ? _track.LowerThumb.Bounds.Width : _track.LowerThumb.Bounds.Height;
+
+            var pointerPos = orient ? pointerCoord.X : pointerCoord.Y;
+
+            if (IsThumbOverlap)
             {
-                return TrackThumb.Upper;
+                var isThumbsOverlapped = Math.Abs(lowerThumbPos - upperThumbPos) < Tolerance;
+
+                if (isThumbsOverlapped && Math.Abs(LowerSelectedValue - Minimum) < Tolerance)
+                    return TrackThumb.Upper;
+                else if (isThumbsOverlapped && Math.Abs(UpperSelectedValue - Maximum) < Tolerance)
+                    return TrackThumb.Lower;
             }
-            else if (IsThumbOverlap && Math.Abs(LowerSelectedValue - UpperSelectedValue) < double.Epsilon
-                && Math.Abs(UpperSelectedValue - Maximum) < double.Epsilon)
+
+            if (Math.Abs(lowerThumbPos - pointerPos) < Math.Abs(upperThumbPos - pointerPos))
             {
-                return TrackThumb.Lower;
-            }
-            else if (!IsThumbOverlap && Math.Abs(LowerSelectedValue - UpperSelectedValue) < double.Epsilon
-                && value < LowerSelectedValue)
-            {
-                return TrackThumb.Lower;
-            }
-            else if (!IsThumbOverlap && Math.Abs(LowerSelectedValue - UpperSelectedValue) < double.Epsilon
-                && value > UpperSelectedValue)
-            {
-                return TrackThumb.Upper;
-            }
-            else if (Math.Abs(LowerSelectedValue - value) < Math.Abs(UpperSelectedValue - value))
-            {
-                return TrackThumb.Lower;
+                if (pointerPos < lowerThumbPos)
+                    return orient ? TrackThumb.OuterLower : TrackThumb.InnerLower;
+                else if (pointerPos > (lowerThumbPos + thumbWidth))
+                    return orient ? TrackThumb.InnerLower : TrackThumb.OuterLower;
+                else
+                    return TrackThumb.Lower;
             }
             else
             {
-                return TrackThumb.Upper;
+                if (pointerPos < upperThumbPos)
+                    return orient ? TrackThumb.InnerUpper : TrackThumb.OuterUpper;
+                else if (pointerPos > (upperThumbPos + thumbWidth))
+                    return orient ? TrackThumb.OuterUpper : TrackThumb.InnerUpper;
+                else
+                    return TrackThumb.Upper;
             }
         }
 

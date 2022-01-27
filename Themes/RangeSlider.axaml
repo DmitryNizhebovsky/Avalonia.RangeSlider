@@ -80,7 +80,7 @@
 										</localPrimitives:RangeTrack.BackgroundButton>
 
 										<localPrimitives:RangeTrack.ForegroundButton>
-											<RepeatButton Name="PART_ForegroundButton" Background="{TemplateBinding Foreground}" Focusable="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+											<RepeatButton Name="PART_ForegroundButton" Background="{TemplateBinding Foreground}" Focusable="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsHitTestVisible="False">
 												<RepeatButton.Template>
 													<ControlTemplate>
 														<Panel>
@@ -93,11 +93,11 @@
 										</localPrimitives:RangeTrack.ForegroundButton>
 										
 										<localPrimitives:RangeTrack.LowerThumb>
-											<Thumb Classes="SliderThumbStyle" Name="PART_LowerThumb" Margin="0" Padding="0" DataContext="{TemplateBinding LowerSelectedValue}" Height="{DynamicResource SliderHorizontalThumbHeight}" Width="{DynamicResource SliderHorizontalThumbWidth}" />
+											<Thumb Classes="SliderThumbStyle" Name="PART_LowerThumb" Margin="0" Padding="0" DataContext="{TemplateBinding LowerSelectedValue}" Height="{DynamicResource SliderHorizontalThumbHeight}" Width="{DynamicResource SliderHorizontalThumbWidth}" IsHitTestVisible="False" />
 										</localPrimitives:RangeTrack.LowerThumb>
 										
 										<localPrimitives:RangeTrack.UpperThumb>
-											<Thumb Classes="SliderThumbStyle" Name="PART_UpperThumb" Margin="0" Padding="0" DataContext="{TemplateBinding UpperSelectedValue}" Height="{DynamicResource SliderHorizontalThumbHeight}" Width="{DynamicResource SliderHorizontalThumbWidth}" />
+											<Thumb Classes="SliderThumbStyle" Name="PART_UpperThumb" Margin="0" Padding="0" DataContext="{TemplateBinding UpperSelectedValue}" Height="{DynamicResource SliderHorizontalThumbHeight}" Width="{DynamicResource SliderHorizontalThumbWidth}" IsHitTestVisible="False" />
 										</localPrimitives:RangeTrack.UpperThumb>
 									
 								</localPrimitives:RangeTrack>
@@ -151,7 +151,7 @@
 										</localPrimitives:RangeTrack.BackgroundButton>
 
 										<localPrimitives:RangeTrack.ForegroundButton>
-											<RepeatButton Name="PART_ForegroundButton" Background="{TemplateBinding Foreground}" Focusable="False" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+											<RepeatButton Name="PART_ForegroundButton" Background="{TemplateBinding Foreground}" Focusable="False" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsHitTestVisible="False">
 												<RepeatButton.Template>
 													<ControlTemplate>
 														<Panel>
@@ -164,11 +164,11 @@
 										</localPrimitives:RangeTrack.ForegroundButton>
 										
 										<localPrimitives:RangeTrack.LowerThumb>
-											<Thumb Classes="SliderThumbStyle" Name="PART_LowerThumb" Margin="0" Padding="0" DataContext="{TemplateBinding LowerSelectedValue}" Height="{DynamicResource SliderHorizontalThumbHeight}" Width="{DynamicResource SliderHorizontalThumbWidth}" />
+											<Thumb Classes="SliderThumbStyle" Name="PART_LowerThumb" Margin="0" Padding="0" DataContext="{TemplateBinding LowerSelectedValue}" Height="{DynamicResource SliderHorizontalThumbHeight}" Width="{DynamicResource SliderHorizontalThumbWidth}" IsHitTestVisible="False"/>
 										</localPrimitives:RangeTrack.LowerThumb>
 										
 										<localPrimitives:RangeTrack.UpperThumb>
-											<Thumb Classes="SliderThumbStyle" Name="PART_UpperThumb" Margin="0" Padding="0" DataContext="{TemplateBinding UpperSelectedValue}" Height="{DynamicResource SliderHorizontalThumbHeight}" Width="{DynamicResource SliderHorizontalThumbWidth}" />
+											<Thumb Classes="SliderThumbStyle" Name="PART_UpperThumb" Margin="0" Padding="0" DataContext="{TemplateBinding UpperSelectedValue}" Height="{DynamicResource SliderHorizontalThumbHeight}" Width="{DynamicResource SliderHorizontalThumbWidth}" IsHitTestVisible="False"/>
 										</localPrimitives:RangeTrack.UpperThumb>
 									</localPrimitives:RangeTrack>
 								</Grid>

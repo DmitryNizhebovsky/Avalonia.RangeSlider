@@ -6,8 +6,8 @@ namespace ModernControlsForAvalonia.ViewModels
     {
         public MainWindowViewModel()
         {
-            LowerSelected = 25;
-            UpperSelected = 75;
+            LowerSelected = 25d;
+            UpperSelected = 75d;
         }
 
         public double LowerSelected
