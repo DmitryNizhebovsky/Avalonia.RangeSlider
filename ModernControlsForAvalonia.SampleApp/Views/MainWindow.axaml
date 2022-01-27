@@ -6,9 +6,9 @@
 		xmlns:local="using:ModernControlsForAvalonia.Controls"
         xmlns:ld="using:ModernControlsForAvalonia.Controls.Loading"
         mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="600"
-        x:Class="ModernControlsForAvalonia.Views.MainWindow"
+        x:Class="ModernControlsForAvalonia.SampleApp.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="ModernControlsForAvalonia">
+        Title="ModernControlsForAvalonia.SampleApp">
 
 	<Grid RowDefinitions="auto,*">
 		<Grid ColumnDefinitions="*,*" HorizontalAlignment="Stretch" Grid.Row="0">

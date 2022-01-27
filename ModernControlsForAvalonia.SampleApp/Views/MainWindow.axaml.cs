@@ -2,7 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace ModernControlsForAvalonia.Views
+namespace ModernControlsForAvalonia.SampleApp.Views
 {
     public class MainWindow : Window
     {

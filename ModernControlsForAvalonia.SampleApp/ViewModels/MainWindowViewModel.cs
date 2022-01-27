@@ -1,6 +1,6 @@
 using ReactiveUI;
 
-namespace ModernControlsForAvalonia.ViewModels
+namespace ModernControlsForAvalonia.SampleApp.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
@@ -30,13 +30,13 @@ namespace ModernControlsForAvalonia.ViewModels
             }
         }
 
-        public string LowerSelectedStr
+        public string? LowerSelectedStr
         {
             get => lowerSelectedStr;
             set => this.RaiseAndSetIfChanged(ref lowerSelectedStr, value);
         }
 
-        public string UpperSelectedStr
+        public string? UpperSelectedStr
         {
             get => upperSelectedStr;
             set => this.RaiseAndSetIfChanged(ref upperSelectedStr, value);
@@ -45,7 +45,7 @@ namespace ModernControlsForAvalonia.ViewModels
         double lowerSelected;
         double upperSelected;
 
-        string lowerSelectedStr;
-        string upperSelectedStr;
+        string? lowerSelectedStr;
+        string? upperSelectedStr;
     }
 }
