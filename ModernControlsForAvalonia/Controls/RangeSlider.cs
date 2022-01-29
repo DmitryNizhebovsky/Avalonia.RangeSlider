@@ -590,7 +590,7 @@ namespace ModernControlsForAvalonia.Controls
 
             if (placement == ThumbFlyoutPlacement.TopLeft && Orientation == Orientation.Horizontal)
                 placementMode = FlyoutPlacementMode.Top;
-            else if (placement == ThumbFlyoutPlacement.TopLeft && Orientation != Orientation.Vertical)
+            else if (placement == ThumbFlyoutPlacement.TopLeft && Orientation == Orientation.Vertical)
                 placementMode = FlyoutPlacementMode.Left;
             else if (placement == ThumbFlyoutPlacement.BottomRight && Orientation == Orientation.Horizontal)
                 placementMode = FlyoutPlacementMode.Bottom;
