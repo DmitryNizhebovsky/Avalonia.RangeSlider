@@ -49,14 +49,13 @@
 				<DataValidationErrors>
 					<Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="{DynamicResource ControlCornerRadius}">
 						<Grid Name="grid" Margin="{TemplateBinding Padding}" RowDefinitions="Auto, *">
-							<ContentPresenter x:Name="HeaderContentPresenter" Grid.Row="0" TextBlock.FontWeight="{DynamicResource SliderHeaderThemeFontWeight}" TextBlock.Foreground="{DynamicResource SliderHeaderForeground}"
-							Margin="{DynamicResource SliderTopHeaderMargin}" />
-							<Grid x:Name="SliderContainer" Grid.Row="1">
-								<Grid.Styles>
-									<Style Selector="TickBar">
-										<Setter Property="ReservedSpace" Value="{Binding #PART_Track.Thumb.Bounds}" />
-									</Style>
-								</Grid.Styles>
+							<ContentPresenter x:Name="HeaderContentPresenter" Grid.Row="0" TextBlock.FontWeight="{DynamicResource SliderHeaderThemeFontWeight}" TextBlock.Foreground="{DynamicResource SliderHeaderForeground}" Margin="{DynamicResource SliderTopHeaderMargin}" />
+								<Grid x:Name="SliderContainer" Grid.Row="1">
+									<Grid.Styles>
+										<Style Selector="TickBar">
+											<Setter Property="ReservedSpace" Value="{Binding #PART_Track.Thumb.Bounds}" />
+										</Style>
+									</Grid.Styles>
 								<Grid x:Name="HorizontalTemplate" ColumnDefinitions="Auto,Auto,*" MinHeight="{DynamicResource SliderHorizontalHeight}">
 									<Grid.RowDefinitions>
 										<RowDefinition Height="{DynamicResource SliderPreContentMargin}" />
@@ -80,7 +79,7 @@
 										</localPrimitives:RangeTrack.BackgroundButton>
 
 										<localPrimitives:RangeTrack.ForegroundButton>
-											<RepeatButton Name="PART_ForegroundButton" Background="{TemplateBinding Foreground}" Focusable="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsHitTestVisible="False">
+											<RepeatButton Name="PART_ForegroundButton" Background="{TemplateBinding Foreground}" Focusable="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 												<RepeatButton.Template>
 													<ControlTemplate>
 														<Panel>
@@ -95,8 +94,8 @@
 										<localPrimitives:RangeTrack.LowerThumb>
 											<Thumb Classes="LowerThumbStyle" Name="PART_LowerThumb" Margin="0" Padding="0" DataContext="{TemplateBinding LowerSelectedValue}" Height="{DynamicResource SliderHorizontalThumbHeight}" Width="{DynamicResource SliderHorizontalThumbWidth}">
 												<FlyoutBase.AttachedFlyout>
-													<Flyout Placement="Top" ShowMode="TransientWithDismissOnPointerMoveAway">
-														<TextBlock Text="{Binding #PART_Track.LowerSelectedValue}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+													<Flyout FlyoutPresenterClasses="ThumbFlyout" Placement="Top" ShowMode="TransientWithDismissOnPointerMoveAway">
+														<TextBlock Text="{Binding #PART_Track.LowerSelectedValue, StringFormat='\{0:0\}'}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 													</Flyout>
 												</FlyoutBase.AttachedFlyout>
 											</Thumb>
@@ -105,14 +104,14 @@
 										<localPrimitives:RangeTrack.UpperThumb>
 											<Thumb Classes="UpperThumbStyle" Name="PART_UpperThumb" Margin="0" Padding="0" DataContext="{TemplateBinding UpperSelectedValue}" Height="{DynamicResource SliderHorizontalThumbHeight}" Width="{DynamicResource SliderHorizontalThumbWidth}">
 												<FlyoutBase.AttachedFlyout>
-													<Flyout Placement="Top" ShowMode="TransientWithDismissOnPointerMoveAway">
-														<TextBlock Text="{Binding #PART_Track.UpperSelectedValue}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+													<Flyout FlyoutPresenterClasses="ThumbFlyout" Placement="Top" ShowMode="TransientWithDismissOnPointerMoveAway">
+														<TextBlock Text="{Binding #PART_Track.UpperSelectedValue, StringFormat='\{0:0\}'}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 													</Flyout>
 												</FlyoutBase.AttachedFlyout>
 											</Thumb>
 										</localPrimitives:RangeTrack.UpperThumb>
 									
-								</localPrimitives:RangeTrack>
+									</localPrimitives:RangeTrack>
 								</Grid>
 							</Grid>
 						</Grid>
@@ -132,8 +131,7 @@
 				<DataValidationErrors>
 					<Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="{DynamicResource ControlCornerRadius}">
 						<Grid Name="grid" Margin="{TemplateBinding Padding}" RowDefinitions="Auto, *">
-							<ContentPresenter x:Name="HeaderContentPresenter" Grid.Row="0" TextBlock.FontWeight="{DynamicResource SliderHeaderThemeFontWeight}" TextBlock.Foreground="{DynamicResource SliderHeaderForeground}"
-							Margin="{DynamicResource SliderTopHeaderMargin}" />
+							<ContentPresenter x:Name="HeaderContentPresenter" Grid.Row="0" TextBlock.FontWeight="{DynamicResource SliderHeaderThemeFontWeight}" TextBlock.Foreground="{DynamicResource SliderHeaderForeground}" Margin="{DynamicResource SliderTopHeaderMargin}" />
 							<Grid x:Name="SliderContainer" Grid.Row="1">
 								<Grid.Styles>
 									<Style Selector="TickBar">
@@ -178,8 +176,8 @@
 										<localPrimitives:RangeTrack.LowerThumb>
 											<Thumb Classes="LowerThumbStyle" Name="PART_LowerThumb" Margin="0" Padding="0" DataContext="{TemplateBinding LowerSelectedValue}" Height="{DynamicResource SliderHorizontalThumbHeight}" Width="{DynamicResource SliderHorizontalThumbWidth}">
 												<FlyoutBase.AttachedFlyout>
-													<Flyout Placement="Top" ShowMode="TransientWithDismissOnPointerMoveAway">
-														<TextBlock Text="{Binding #PART_Track.LowerSelectedValue}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+													<Flyout FlyoutPresenterClasses="ThumbFlyout" Placement="Top" ShowMode="TransientWithDismissOnPointerMoveAway">
+														<TextBlock Text="{Binding #PART_Track.LowerSelectedValue, StringFormat='\{0:0\}'}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 													</Flyout>
 												</FlyoutBase.AttachedFlyout>
 											</Thumb>
@@ -188,8 +186,8 @@
 										<localPrimitives:RangeTrack.UpperThumb>
 											<Thumb Classes="UpperThumbStyle" Name="PART_UpperThumb" Margin="0" Padding="0" DataContext="{TemplateBinding UpperSelectedValue}" Height="{DynamicResource SliderHorizontalThumbHeight}" Width="{DynamicResource SliderHorizontalThumbWidth}">
 												<FlyoutBase.AttachedFlyout>
-													<Flyout Placement="Top" ShowMode="TransientWithDismissOnPointerMoveAway">
-														<TextBlock Text="{Binding #PART_Track.UpperSelectedValue}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+													<Flyout FlyoutPresenterClasses="ThumbFlyout" Placement="Top" ShowMode="TransientWithDismissOnPointerMoveAway">
+														<TextBlock Text="{Binding #PART_Track.UpperSelectedValue, StringFormat='\{0:0\}'}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 													</Flyout>
 												</FlyoutBase.AttachedFlyout>
 											</Thumb>
@@ -202,6 +200,12 @@
 				</DataValidationErrors>
 			</ControlTemplate>
 		</Setter>
+	</Style>
+
+	<Style Selector="FlyoutPresenter.ThumbFlyout">
+		<Setter Property="MinWidth" Value="0"/>
+		<Setter Property="MinHeight" Value="0"/>
+		<Setter Property="Margin" Value="5"/>
 	</Style>
 
 	<Style Selector="local|RangeSlider /template/ Thumb.LowerThumbStyle">
@@ -289,7 +293,7 @@
 	<Style Selector="local|RangeSlider[TickPlacement=BottomRight] /template/ TickBar#RightTickBar, local|RangeSlider[TickPlacement=Outside] /template/ TickBar#RightTickBar">
 		<Setter Property="IsVisible" Value="True" />
 	</Style>
-
+	
 	<!-- Disabled State -->
 
 	<Style Selector="local|RangeSlider:disabled /template/ ContentPresenter#HeaderContentPresenter">
