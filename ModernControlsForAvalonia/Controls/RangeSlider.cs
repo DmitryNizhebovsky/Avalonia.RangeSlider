@@ -1,5 +1,4 @@
-﻿using System;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
@@ -15,11 +14,26 @@ using RangeBase = ModernControlsForAvalonia.Controls.Primitives.RangeBase;
 
 namespace ModernControlsForAvalonia.Controls
 {
-    public enum RangeDraggedMode
+    /// <summary>
+    /// Enum which describes how to position the flyout in a <see cref="RangeSlider"/>.
+    /// </summary>
+    public enum ThumbFlyoutPlacement
     {
-        MoveThumbsBoth,
-        MoveThumbsSeparately
-    };
+        /// <summary>
+        /// No flyout will appear.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// Flyout will appear above the track for a horizontal <see cref="RangeSlider"/>, or to the left of the track for a vertical <see cref="RangeSlider"/>.
+        /// </summary>
+        TopLeft,
+
+        /// <summary>
+        /// Flyout will appear below the track for a horizontal <see cref="RangeSlider"/>, or to the right of the track for a vertical <see cref="RangeSlider"/>.
+        /// </summary>
+        BottomRight,
+    }
 
     /// <summary>
     /// A control that lets the user select from a range of values by moving a Thumb control along a Track.
@@ -36,8 +50,8 @@ namespace ModernControlsForAvalonia.Controls
             Lower,
             InnerLower,
             OuterLower,
-            Middle,
-            Both
+            Both,
+            Overlapped
         };
 
         /// <summary>
@@ -59,16 +73,22 @@ namespace ModernControlsForAvalonia.Controls
             RangeTrack.IsThumbOverlapProperty.AddOwner<RangeSlider>();
 
         /// <summary>
+        /// Defines the <see cref="FlyoutPlacement"/> property.
+        /// </summary>
+        public static readonly StyledProperty<ThumbFlyoutPlacement> ThumbFlyoutPlacementProperty =
+            AvaloniaProperty.Register<TickBar, ThumbFlyoutPlacement>(nameof(ThumbFlyoutPlacement), ThumbFlyoutPlacement.None);
+
+        /// <summary>
         /// Defines the <see cref="IsSnapToTickEnabled"/> property.
         /// </summary>
         public static readonly StyledProperty<bool> IsSnapToTickEnabledProperty =
             AvaloniaProperty.Register<RangeSlider, bool>(nameof(IsSnapToTickEnabled), false);
 
         /// <summary>
-        /// Defines the <see cref="RangeDraggedMode"/> property.
+        /// Defines the <see cref="MoveWholeRange"/> property.
         /// </summary>
-        public static readonly StyledProperty<RangeDraggedMode> RangeDraggedModeProperty =
-            AvaloniaProperty.Register<RangeSlider, RangeDraggedMode>(nameof(RangeDraggedMode), RangeDraggedMode.MoveThumbsSeparately);
+        public static readonly StyledProperty<bool> MoveWholeRangeProperty =
+            AvaloniaProperty.Register<RangeSlider, bool>(nameof(MoveWholeRange), false);
 
         /// <summary>
         /// Defines the <see cref="TickFrequency"/> property.
@@ -109,6 +129,8 @@ namespace ModernControlsForAvalonia.Controls
 
             LowerSelectedValueProperty.OverrideMetadata<RangeSlider>(new DirectPropertyMetadata<double>(enableDataValidation: true));
             UpperSelectedValueProperty.OverrideMetadata<RangeSlider>(new DirectPropertyMetadata<double>(enableDataValidation: true));
+
+            ThumbFlyoutPlacementProperty.Changed.AddClassHandler<RangeSlider>((x, e) => x.ThumbFlyoutPlacementChanged(e));
         }
 
         /// <summary>
@@ -138,12 +160,12 @@ namespace ModernControlsForAvalonia.Controls
         }
 
         /// <summary>
-        /// Gets or sets the SelectedRangeDraggedMode of a <see cref="RangeSlider"/>.
+        /// Gets or sets a value allowing to move the whole selected range.
         /// </summary>
-        public RangeDraggedMode RangeDraggedMode
+        public bool MoveWholeRange
         {
-            get { return GetValue(RangeDraggedModeProperty); }
-            set { SetValue(RangeDraggedModeProperty, value); }
+            get { return GetValue(MoveWholeRangeProperty); }
+            set { SetValue(MoveWholeRangeProperty, value); }
         }
 
         /// <summary>
@@ -157,6 +179,15 @@ namespace ModernControlsForAvalonia.Controls
         {
             get { return GetValue(IsDirectionReversedProperty); }
             set { SetValue(IsDirectionReversedProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the current value will be displayed above <see cref="Thumb"/>.
+        /// </summary>
+        public ThumbFlyoutPlacement ThumbFlyoutPlacement
+        {
+            get { return GetValue(ThumbFlyoutPlacementProperty); }
+            set { SetValue(ThumbFlyoutPlacementProperty, value); }
         }
 
         /// <summary>
@@ -204,9 +235,9 @@ namespace ModernControlsForAvalonia.Controls
             _lowerThumb = e.NameScope.Find<Thumb>("PART_LowerThumb");
             _upperThumb = e.NameScope.Find<Thumb>("PART_UpperThumb");
 
-            AddHandler(PointerPressedEvent, TrackPressed, RoutingStrategies.Tunnel);
-            AddHandler(PointerReleasedEvent, TrackReleased, RoutingStrategies.Tunnel);
+            ApplyThumbFlyoutPlacement(ThumbFlyoutPlacement);
 
+            AddHandler(PointerPressedEvent, TrackPressed, RoutingStrategies.Tunnel);
             AddHandler(PointerMovedEvent, TrackMoved, RoutingStrategies.Tunnel);
             AddHandler(PointerReleasedEvent, TrackReleased, RoutingStrategies.Tunnel);
 
@@ -315,6 +346,9 @@ namespace ModernControlsForAvalonia.Controls
 
         private void PointerOverThumb(object? sender, PointerEventArgs e)
         {
+            if (ThumbFlyoutPlacement == ThumbFlyoutPlacement.None)
+                return;
+
             if (sender is Thumb thumb)
                 FlyoutBase.ShowAttachedFlyout(thumb);
         }
@@ -325,13 +359,13 @@ namespace ModernControlsForAvalonia.Controls
             {
                 _isDragging = true;
 
-                var pointerCoord = e.GetCurrentPoint(this).Position;
+                var pointerCoord = e.GetCurrentPoint(_track).Position;
                 _previousValue = GetValueByPointOnTrack(pointerCoord);
                 _currentTrackThumb = GetNearestTrackThumb(pointerCoord);
 
-                if (!IsPressedOnTrackBetweenThumbs() && RangeDraggedMode == RangeDraggedMode.MoveThumbsBoth)
+                if (!IsPressedOnTrackBetweenThumbs() && MoveWholeRange)
                     MoveToPoint(pointerCoord, _currentTrackThumb);
-                else if (RangeDraggedMode == RangeDraggedMode.MoveThumbsSeparately)
+                else if (!MoveWholeRange && _currentTrackThumb != TrackThumb.Overlapped)
                     MoveToPoint(pointerCoord, _currentTrackThumb);
             }
         }
@@ -346,13 +380,16 @@ namespace ModernControlsForAvalonia.Controls
         {
             if (_isDragging)
             {
-                var pointerCoord = e.GetCurrentPoint(this).Position;
+                var pointerCoord = e.GetCurrentPoint(_track).Position;
 
-                if (!IsPressedOnTrackBetweenThumbs() && RangeDraggedMode == RangeDraggedMode.MoveThumbsBoth)
+                if (_currentTrackThumb == TrackThumb.Overlapped)
+                    SelectThumbBasedOnPointerDirection(pointerCoord);
+
+                if (!IsPressedOnTrackBetweenThumbs() && MoveWholeRange)
                     MoveToPoint(pointerCoord, _currentTrackThumb);
-                if (IsPressedOnTrackBetweenThumbs() && RangeDraggedMode == RangeDraggedMode.MoveThumbsBoth)
+                if (IsPressedOnTrackBetweenThumbs() && MoveWholeRange)
                     MoveToPoint(pointerCoord, TrackThumb.Both);
-                else if (RangeDraggedMode == RangeDraggedMode.MoveThumbsSeparately)
+                else if (!MoveWholeRange)
                     MoveToPoint(pointerCoord, _currentTrackThumb);
             }
         }
@@ -372,12 +409,6 @@ namespace ModernControlsForAvalonia.Controls
                 case TrackThumb.InnerLower:
                 case TrackThumb.OuterLower:
                     LowerSelectedValue = IsSnapToTickEnabled ? SnapToTick(value) : value;
-                    break;
-                case TrackThumb.Middle:
-                    if (Math.Abs(LowerSelectedValue - value) < Math.Abs(UpperSelectedValue - value))
-                        LowerSelectedValue = IsSnapToTickEnabled ? SnapToTick(value) : value;
-                    else
-                        UpperSelectedValue = IsSnapToTickEnabled ? SnapToTick(value) : value;
                     break;
                 case TrackThumb.Both:
                     var delta = value - _previousValue;
@@ -430,6 +461,20 @@ namespace ModernControlsForAvalonia.Controls
             return _currentTrackThumb == TrackThumb.InnerLower || _currentTrackThumb == TrackThumb.InnerUpper;
         }
 
+        private void SelectThumbBasedOnPointerDirection(Point pointerCoord)
+        {
+            var value = GetValueByPointOnTrack(pointerCoord);
+            var delta = _previousValue - value;
+
+            if (delta >= 0d && delta < Tolerance)
+                return;
+
+            if (delta > 0d)
+                _currentTrackThumb = TrackThumb.Lower;
+            else
+                _currentTrackThumb = TrackThumb.Upper;
+        }
+
         private TrackThumb GetNearestTrackThumb(Point pointerCoord)
         {
             var orient = Orientation == Orientation.Horizontal;
@@ -437,6 +482,7 @@ namespace ModernControlsForAvalonia.Controls
             var lowerThumbPos = orient ? _track.LowerThumb.Bounds.Position.X : _track.LowerThumb.Bounds.Position.Y;
             var upperThumbPos = orient ? _track.UpperThumb.Bounds.Position.X : _track.UpperThumb.Bounds.Position.Y;
             var thumbWidth = orient ? _track.LowerThumb.Bounds.Width : _track.LowerThumb.Bounds.Height;
+            var thumbHalfWidth = thumbWidth / 2d;
 
             var pointerPos = orient ? pointerCoord.X : pointerCoord.Y;
 
@@ -444,29 +490,28 @@ namespace ModernControlsForAvalonia.Controls
             {
                 var isThumbsOverlapped = Math.Abs(lowerThumbPos - upperThumbPos) < Tolerance;
 
-                if (isThumbsOverlapped && Math.Abs(LowerSelectedValue - Minimum) < Tolerance)
-                    return TrackThumb.Upper;
-                else if (isThumbsOverlapped && Math.Abs(UpperSelectedValue - Maximum) < Tolerance)
-                    return TrackThumb.Lower;
+                if (isThumbsOverlapped)
+                    return TrackThumb.Overlapped;
             }
+
+            if (Math.Abs(lowerThumbPos + thumbHalfWidth - pointerPos) <= thumbHalfWidth)
+                return TrackThumb.Lower;
+            else if (Math.Abs(upperThumbPos + thumbHalfWidth - pointerPos) <= thumbHalfWidth)
+                return TrackThumb.Upper;
 
             if (Math.Abs(lowerThumbPos - pointerPos) < Math.Abs(upperThumbPos - pointerPos))
             {
                 if (pointerPos < lowerThumbPos)
                     return orient ? TrackThumb.OuterLower : TrackThumb.InnerLower;
-                else if (pointerPos > (lowerThumbPos + thumbWidth))
-                    return orient ? TrackThumb.InnerLower : TrackThumb.OuterLower;
                 else
-                    return TrackThumb.Lower;
+                    return orient ? TrackThumb.InnerLower : TrackThumb.OuterLower;
             }
             else
             {
                 if (pointerPos < upperThumbPos)
                     return orient ? TrackThumb.InnerUpper : TrackThumb.OuterUpper;
-                else if (pointerPos > (upperThumbPos + thumbWidth))
-                    return orient ? TrackThumb.OuterUpper : TrackThumb.InnerUpper;
                 else
-                    return TrackThumb.Upper;
+                    return orient ? TrackThumb.OuterUpper : TrackThumb.InnerUpper;
             }
         }
 
@@ -534,6 +579,42 @@ namespace ModernControlsForAvalonia.Controls
             }
 
             return value;
+        }
+
+        private void ApplyThumbFlyoutPlacement(ThumbFlyoutPlacement placement)
+        {
+            if (placement == ThumbFlyoutPlacement.None)
+                return;
+
+            var placementMode = FlyoutPlacementMode.Auto;
+
+            if (placement == ThumbFlyoutPlacement.TopLeft && Orientation == Orientation.Horizontal)
+                placementMode = FlyoutPlacementMode.Top;
+            else if (placement == ThumbFlyoutPlacement.TopLeft && Orientation != Orientation.Vertical)
+                placementMode = FlyoutPlacementMode.Left;
+            else if (placement == ThumbFlyoutPlacement.BottomRight && Orientation == Orientation.Horizontal)
+                placementMode = FlyoutPlacementMode.Bottom;
+            else if (placement == ThumbFlyoutPlacement.BottomRight && Orientation == Orientation.Vertical)
+                placementMode = FlyoutPlacementMode.Right;
+
+            var lowerFlyout = FlyoutBase.GetAttachedFlyout(_lowerThumb);
+            if (lowerFlyout != null)
+                lowerFlyout.Placement = placementMode;
+
+            var upperFlyout = FlyoutBase.GetAttachedFlyout(_upperThumb);
+            if (upperFlyout != null)
+                upperFlyout.Placement = placementMode;
+        }
+
+        private void ThumbFlyoutPlacementChanged(AvaloniaPropertyChangedEventArgs e)
+        {
+            if (_lowerThumb == null || _upperThumb == null)
+                return;
+
+            if (e.NewValue is ThumbFlyoutPlacement placement)
+            {
+                ApplyThumbFlyoutPlacement(placement);
+            }
         }
 
         private void UpdatePseudoClasses(Orientation o)
