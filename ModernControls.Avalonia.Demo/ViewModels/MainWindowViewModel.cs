@@ -1,6 +1,6 @@
 using ReactiveUI;
 
-namespace ModernControlsForAvalonia.SampleApp.ViewModels
+namespace ModernControls.Avalonia.Demo.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {

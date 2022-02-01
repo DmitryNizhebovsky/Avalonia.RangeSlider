@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reactive.Linq;
+﻿using System.Reactive.Linq;
 using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Animation.Easings;
@@ -7,9 +6,9 @@ using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
 using Avalonia.Styling;
-using ModernControlsForAvalonia.Controls.Animators;
+using ModernControls.Avalonia.Controls.Animators;
 
-namespace ModernControlsForAvalonia.Controls.Loading
+namespace ModernControls.Avalonia.Controls.Loading
 {
     public class LoadingCircle : LoadingBase
     {

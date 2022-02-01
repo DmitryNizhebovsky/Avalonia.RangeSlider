@@ -3,7 +3,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Utilities;
 
-namespace ModernControlsForAvalonia.Controls.Primitives
+namespace ModernControls.Avalonia.Controls.Primitives
 {
     /// <summary>
     /// Base class for controls that display a value within a range.

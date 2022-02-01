@@ -1,7 +1,7 @@
 <Styles xmlns="https://github.com/avaloniaui"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:local="using:ModernControlsForAvalonia.Controls"
-		xmlns:localPrimitives="using:ModernControlsForAvalonia.Controls.Primitives">
+		xmlns:local="using:ModernControls.Avalonia.Controls"
+		xmlns:localPrimitives="using:ModernControls.Avalonia.Controls.Primitives">
 
 	<Design.PreviewWith>
 		<Border  Width="350" Height="700">					

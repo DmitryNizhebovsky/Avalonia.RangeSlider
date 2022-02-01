@@ -1,6 +1,6 @@
 ﻿using Avalonia.Animation.Animators;
 
-namespace ModernControlsForAvalonia.Controls.Animators
+namespace ModernControls.Avalonia.Controls.Animators
 {
     public sealed class DiscreteAnimator : Animator<double>
     {

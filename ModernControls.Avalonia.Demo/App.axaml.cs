@@ -1,10 +1,10 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using ModernControlsForAvalonia.SampleApp.ViewModels;
-using ModernControlsForAvalonia.SampleApp.Views;
+using ModernControls.Avalonia.Demo.ViewModels;
+using ModernControls.Avalonia.Demo.Views;
 
-namespace ModernControlsForAvalonia.SampleApp
+namespace ModernControls.Avalonia.Demo
 {
     public class App : Application
     {

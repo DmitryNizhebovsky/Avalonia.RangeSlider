@@ -3,9 +3,10 @@ using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Data;
+using Avalonia.Layout;
 using Avalonia.Media;
 
-namespace ModernControlsForAvalonia.Controls.Loading
+namespace ModernControls.Avalonia.Controls.Loading
 {
     public abstract class LoadingBase : ContentControl
     {
@@ -55,8 +56,8 @@ namespace ModernControlsForAvalonia.Controls.Loading
             Canvas = new()
             {
                 ClipToBounds = true,
-                VerticalAlignment = Avalonia.Layout.VerticalAlignment.Stretch,
-                HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch
+                VerticalAlignment = VerticalAlignment.Stretch,
+                HorizontalAlignment = HorizontalAlignment.Stretch
             };
 
             Content = Canvas;

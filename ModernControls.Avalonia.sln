@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernControlsForAvalonia.SampleApp", "ModernControlsForAvalonia.SampleApp\ModernControlsForAvalonia.SampleApp.csproj", "{1AFE7DBC-B553-4859-92E7-F3EDA38BD69A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernControls.Avalonia.Demo", "ModernControls.Avalonia.Demo\ModernControls.Avalonia.Demo.csproj", "{1AFE7DBC-B553-4859-92E7-F3EDA38BD69A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernControlsForAvalonia", "ModernControlsForAvalonia\ModernControlsForAvalonia.csproj", "{F2E3917D-CABD-4972-8918-089845004597}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernControls.Avalonia", "ModernControls.Avalonia\ModernControls.Avalonia.csproj", "{F2E3917D-CABD-4972-8918-089845004597}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

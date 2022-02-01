@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reactive.Linq;
+﻿using System.Reactive.Linq;
 using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Animation.Easings;
@@ -8,7 +7,7 @@ using Avalonia.Data;
 using Avalonia.Layout;
 using Avalonia.Styling;
 
-namespace ModernControlsForAvalonia.Controls.Loading
+namespace ModernControls.Avalonia.Controls.Loading
 {
     public class LoadingLine : LoadingBase
     {

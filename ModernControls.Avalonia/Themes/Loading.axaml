@@ -1,6 +1,6 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="using:ModernControlsForAvalonia.Controls.Loading">
+        xmlns:local="using:ModernControls.Avalonia.Controls.Loading">
 
     <Design.PreviewWith>
         <Border>
