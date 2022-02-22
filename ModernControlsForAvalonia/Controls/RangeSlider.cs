@@ -403,23 +403,36 @@ namespace ModernControlsForAvalonia.Controls
                 case TrackThumb.Upper:
                 case TrackThumb.InnerUpper:
                 case TrackThumb.OuterUpper:
-                    UpperSelectedValue = IsSnapToTickEnabled ? SnapToTick(value) : value;
+                    UpperSelectedValue = SnapToTick(value);
                     break;
                 case TrackThumb.Lower:
                 case TrackThumb.InnerLower:
                 case TrackThumb.OuterLower:
-                    LowerSelectedValue = IsSnapToTickEnabled ? SnapToTick(value) : value;
+                    LowerSelectedValue = SnapToTick(value);
                     break;
                 case TrackThumb.Both:
                     var delta = value - _previousValue;
-                    _previousValue = value;
-
-                    if ((Math.Abs(LowerSelectedValue - Minimum) <= Tolerance && delta < 0.0)
-                        || (Math.Abs(UpperSelectedValue - Maximum) <= Tolerance && delta > 0.0))
+                    
+                    if ((Math.Abs(LowerSelectedValue - Minimum) <= Tolerance && delta <= 0d)
+                        || (Math.Abs(UpperSelectedValue - Maximum) <= Tolerance && delta >= 0d))
                         return;
 
-                    LowerSelectedValue += delta;
-                    UpperSelectedValue += delta;
+                    if (!IsSnapToTickEnabled)
+                    {
+                        _previousValue = value;
+                        LowerSelectedValue += delta;
+                        UpperSelectedValue += delta;
+                    }
+                    else
+                    {
+                        var closestTick = SnapToTick(Math.Abs(delta) / 2d);
+                        if (closestTick > 0d)
+                        {
+                            _previousValue = value;
+                            LowerSelectedValue += closestTick * Math.Sign(delta);
+                            UpperSelectedValue += closestTick * Math.Sign(delta);
+                        }
+                    }
                     break;
             }
         }
