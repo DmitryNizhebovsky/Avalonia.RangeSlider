@@ -18,7 +18,7 @@ For use:
 
 ```
 
-2. Add notification panel in your window
+2. Add RangeSlider in your window
 
 ```xml
  <Window
