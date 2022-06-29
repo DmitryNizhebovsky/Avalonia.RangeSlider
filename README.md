@@ -27,7 +27,7 @@ For use:
     ...>
     
     <Grid>
-       <local:RangeSlider Minimum="0" Maximum="100" LowerSelectedValue="25" UpperSelectedValue="75" IsThumbOverlap="True"/>
+       <rs:RangeSlider Minimum="0" Maximum="100" LowerSelectedValue="25" UpperSelectedValue="75" IsThumbOverlap="True"/>
     </Grid>
  </Window>
 ```
