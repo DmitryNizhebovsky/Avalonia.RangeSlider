@@ -1,9 +1,9 @@
+using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using ModernControlsForAvalonia.SampleApp.ViewModels;
-using System;
+using Avalonia.RangeSlider.SampleApp.ViewModels;
 
-namespace ModernControlsForAvalonia.SampleApp
+namespace Avalonia.RangeSlider.SampleApp
 {
     public class ViewLocator : IDataTemplate
     {

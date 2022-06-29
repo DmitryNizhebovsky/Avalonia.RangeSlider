@@ -1,14 +1,13 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:ModernControlsForAvalonia.ViewModels"
+        xmlns:vm="using:Avalonia.RangeSlider.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:local="using:ModernControlsForAvalonia.Controls"
-        xmlns:ld="using:ModernControlsForAvalonia.Controls.Loading"
+		xmlns:local="using:Avalonia.RangeSlider.Controls"
         mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="600"
-        x:Class="ModernControlsForAvalonia.SampleApp.Views.MainWindow"
+        x:Class="Avalonia.RangeSlider.SampleApp.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="ModernControlsForAvalonia.SampleApp">
+        Title="Avalonia.RangeSlider.SampleApp">
 
 	<Grid RowDefinitions="auto,*">
 		<Grid ColumnDefinitions="*,*" HorizontalAlignment="Stretch" Grid.Row="0">

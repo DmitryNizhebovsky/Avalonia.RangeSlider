@@ -1,5 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Collections;
+﻿using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Mixins;
@@ -8,11 +7,11 @@ using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
+using Avalonia.RangeSlider.Controls.Primitives;
 using Avalonia.Utilities;
-using ModernControlsForAvalonia.Controls.Primitives;
-using RangeBase = ModernControlsForAvalonia.Controls.Primitives.RangeBase;
+using RangeBase = Avalonia.RangeSlider.Controls.Primitives.RangeBase;
 
-namespace ModernControlsForAvalonia.Controls
+namespace Avalonia.RangeSlider.Controls
 {
     /// <summary>
     /// Enum which describes how to position the flyout in a <see cref="RangeSlider"/>.

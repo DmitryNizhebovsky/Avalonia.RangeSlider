@@ -1,14 +1,13 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="using:ModernControlsForAvalonia.SampleApp"
-             x:Class="ModernControlsForAvalonia.SampleApp.App">
+             xmlns:local="using:Avalonia.RangeSlider.SampleApp"
+             x:Class="Avalonia.RangeSlider.SampleApp.App">
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
 
     <Application.Styles>
         <FluentTheme Mode="Light"/>
-		<StyleInclude Source="avares://ModernControlsForAvalonia/Themes/RangeSlider.axaml"/>
-        <StyleInclude Source="avares://ModernControlsForAvalonia/Themes/Loading.axaml"/>
+		<StyleInclude Source="avares://Avalonia.RangeSlider/Themes/RangeSlider.axaml"/>
     </Application.Styles>
 </Application>

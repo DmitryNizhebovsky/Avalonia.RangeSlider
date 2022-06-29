@@ -1,8 +1,7 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace ModernControlsForAvalonia.SampleApp.Views
+namespace Avalonia.RangeSlider.SampleApp.Views
 {
     public class MainWindow : Window
     {
