@@ -63,8 +63,8 @@
 										<RowDefinition Height="Auto" />
 										<RowDefinition Height="{DynamicResource SliderPostContentMargin}" />
 									</Grid.RowDefinitions>
-									<TickBar Name="TopTickBar" Placement="Top" Height="4" VerticalAlignment="Bottom" Margin="0,0,0,4" Grid.ColumnSpan="3" />
-									<TickBar Name="BottomTickBar" Placement="Bottom" Height="4" VerticalAlignment="Top" Margin="0,4,0,0" Grid.Row="2" Grid.ColumnSpan="3" />
+									<TickBar  Name="TopTickBar" Placement="Top" Height="8" VerticalAlignment="Bottom" Margin="0,0,0,4" Grid.ColumnSpan="3" />
+									<TickBar Name="BottomTickBar" Placement="Bottom" Height="8" VerticalAlignment="Top" Margin="0,4,0,0" Grid.Row="2" Grid.ColumnSpan="3" />
 									<localPrimitives:RangeTrack Name="PART_Track" Grid.Row="1" Grid.ColumnSpan="3" IsDirectionReversed="{TemplateBinding IsDirectionReversed}" IsThumbOverlap="{TemplateBinding IsThumbOverlap}" Orientation="Horizontal">
 										<localPrimitives:RangeTrack.BackgroundButton>
 											<RepeatButton Name="PART_BackgroundButton" Background="{TemplateBinding Background}" Focusable="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -249,7 +249,7 @@
 	</Style>
 
 	<Style Selector="local|RangeSlider /template/ TickBar">
-		<Setter Property="Fill" Value="{TemplateBinding Fill}" />
+		<Setter Property="Fill" Value="{DynamicResource PrimaryHueMidBrush}" />
 		<Setter Property="TickFrequency" Value="{TemplateBinding local:RangeSlider.TickFrequency}" />
 		<Setter Property="Orientation" Value="{TemplateBinding local:RangeSlider.Orientation}" />
 		<Setter Property="Minimum" Value="{TemplateBinding local:RangeSlider.Minimum}" />
@@ -260,6 +260,7 @@
 		<Setter Property="RenderTransform" Value="scale(1.0)" />
 	</Style>
 
+	
 	<!-- Normal State -->
 
 	<Style Selector="local|RangeSlider /template/ Thumb.LowerThumbStyle">
