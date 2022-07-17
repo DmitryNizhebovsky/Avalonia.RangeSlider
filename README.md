@@ -18,6 +18,16 @@ For use:
 
 ```
 
+ For Material.Avalonia add
+
+```xml
+<Application.Styles>
+    ...
+   <StyleInclude Source="avares://Avalonia.RangeSlider/Themes/MaterialRangeSlider.axaml"/>
+</Application.Styles>
+
+```
+
 2. Add RangeSlider in your window
 
 ```xml

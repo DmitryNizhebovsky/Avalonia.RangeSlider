@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalonia.RangeSlider.Sample
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalonia.RangeSlider", "Avalonia.RangeSlider\Avalonia.RangeSlider.csproj", "{F2E3917D-CABD-4972-8918-089845004597}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalonia.RangeSlider.MaterialSample", "Avalonia.RangeSlider.MaterialSample\Avalonia.RangeSlider.MaterialSample.csproj", "{F47EEF94-8C1E-4D8F-9C44-5D6281ED78BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F2E3917D-CABD-4972-8918-089845004597}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2E3917D-CABD-4972-8918-089845004597}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2E3917D-CABD-4972-8918-089845004597}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F47EEF94-8C1E-4D8F-9C44-5D6281ED78BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F47EEF94-8C1E-4D8F-9C44-5D6281ED78BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F47EEF94-8C1E-4D8F-9C44-5D6281ED78BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F47EEF94-8C1E-4D8F-9C44-5D6281ED78BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
