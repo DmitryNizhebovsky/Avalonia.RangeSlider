@@ -13,7 +13,7 @@ For use:
 ```xml
 <Application.Styles>
     ...
-   <StyleInclude Source="avares://Avalonia.RangeSlider/Themes/RangeSlider.axaml"/>
+    <rangeSlider:RangeSliderStyle/>
 </Application.Styles>
 
 ```
@@ -23,7 +23,7 @@ For use:
 ```xml
 <Application.Styles>
     ...
-   <StyleInclude Source="avares://Avalonia.RangeSlider/Themes/MaterialRangeSlider.axaml"/>
+    <rangeSlider:RangeSliderStyle Theme = "Material" />
 </Application.Styles>
 
 ```
