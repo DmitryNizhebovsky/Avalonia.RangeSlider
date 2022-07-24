@@ -33,8 +33,8 @@ namespace Avalonia.RangeSlider.SampleApp.Views
             var rStyle = new RangeSliderStyle(appUri);
             if (!_isMatherial)
             {
-                var matherialUri = new Uri("avares://avares://Avalonia.RangeSlider.SampleApp");
-                var styleInclude = new StyleInclude(matherialUri)
+                var baseAppUri = new Uri("avares://avares://Avalonia.RangeSlider.SampleApp");
+                var styleInclude = new StyleInclude(baseAppUri)
                 {
                     Source = new Uri("avares://Material.Avalonia/Material.Avalonia.Templates.xaml")
                 };
