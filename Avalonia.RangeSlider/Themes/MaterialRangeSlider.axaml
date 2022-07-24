@@ -146,8 +146,8 @@
 										<ColumnDefinition Width="Auto" />
 										<ColumnDefinition Width="{DynamicResource SliderPostContentMargin}" />
 									</Grid.ColumnDefinitions>
-									<TickBar Name="LeftTickBar" Placement="Left" Width="4" HorizontalAlignment="Right" Margin="0,0,4,0" Grid.RowSpan="3" />
-									<TickBar Name="RightTickBar" Placement="Right" Width="4" HorizontalAlignment="Left" Margin="4,0,0,0" Grid.Column="2" Grid.RowSpan="3" />
+									<TickBar Name="LeftTickBar" Placement="Left" Width="8" HorizontalAlignment="Right" Margin="0,0,4,0" Grid.RowSpan="3" />
+									<TickBar Name="RightTickBar" Placement="Right" Width="8" HorizontalAlignment="Left" Margin="4,0,0,0" Grid.Column="2" Grid.RowSpan="3" />
 									<localPrimitives:RangeTrack Name="PART_Track" Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="3" IsDirectionReversed="{TemplateBinding IsDirectionReversed}" IsThumbOverlap="{TemplateBinding IsThumbOverlap}" Orientation="Vertical">
 										<localPrimitives:RangeTrack.BackgroundButton>
 											<RepeatButton Name="PART_BackgroundButton" Background="{TemplateBinding Background}" Focusable="False" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -155,7 +155,7 @@
 													<ControlTemplate>
 														<Panel>
 															<Border Name="FocusTarget" Background="Transparent" Margin="0,-10" />
-															<Border Name="TrackBackground" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource ControlCornerRadius}" Width="{DynamicResource SliderTrackThemeHeight}" HorizontalAlignment="Center" />
+															<Border Name="TrackBackground" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource ControlCornerRadius}" Width="10" HorizontalAlignment="Center" />
 														</Panel>
 													</ControlTemplate>
 												</RepeatButton.Template>
