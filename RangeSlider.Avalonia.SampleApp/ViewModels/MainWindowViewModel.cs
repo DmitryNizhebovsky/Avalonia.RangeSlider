@@ -1,6 +1,6 @@
 using ReactiveUI;
 
-namespace Avalonia.RangeSlider.SampleApp.ViewModels;
+namespace RangeSlider.Avalonia.SampleApp.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {

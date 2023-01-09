@@ -1,9 +1,9 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="using:Avalonia.RangeSlider.SampleApp"
-             xmlns:rangeSlider="clr-namespace:Avalonia.RangeSlider;assembly=Avalonia.RangeSlider"
+             xmlns:local="using:RangeSlider.Avalonia.SampleApp"
+             xmlns:rangeSlider="clr-namespace:RangeSlider.Avalonia;assembly=RangeSlider.Avalonia"
              xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
-             x:Class="Avalonia.RangeSlider.SampleApp.App">
+             x:Class="RangeSlider.Avalonia.SampleApp.App">
     <Application.DataTemplates>
         <local:ViewLocator />
     </Application.DataTemplates>

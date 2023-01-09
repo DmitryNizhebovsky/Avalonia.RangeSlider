@@ -1,6 +1,7 @@
+using Avalonia;
 using Avalonia.ReactiveUI;
 
-namespace Avalonia.RangeSlider.SampleApp;
+namespace RangeSlider.Avalonia.SampleApp;
 
 class Program
 {

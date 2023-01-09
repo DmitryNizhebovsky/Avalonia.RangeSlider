@@ -1,4 +1,4 @@
-﻿namespace Avalonia.RangeSlider.Enums;
+﻿namespace RangeSlider.Avalonia.Enums;
 
 public enum StyleTheme
 {

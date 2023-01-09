@@ -1,8 +1,9 @@
-﻿using Avalonia.Controls.Primitives;
+﻿using Avalonia;
+using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Utilities;
 
-namespace Avalonia.RangeSlider.Controls.Primitives;
+namespace RangeSlider.Avalonia.Controls.Primitives;
 
 /// <summary>
 /// Base class for controls that display a value within a range.

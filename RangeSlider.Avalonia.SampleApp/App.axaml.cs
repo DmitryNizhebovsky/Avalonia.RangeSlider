@@ -1,9 +1,10 @@
+using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using Avalonia.RangeSlider.SampleApp.ViewModels;
-using Avalonia.RangeSlider.SampleApp.Views;
+using RangeSlider.Avalonia.SampleApp.ViewModels;
+using RangeSlider.Avalonia.SampleApp.Views;
 
-namespace Avalonia.RangeSlider.SampleApp;
+namespace RangeSlider.Avalonia.SampleApp;
 
 public class App : Application
 {

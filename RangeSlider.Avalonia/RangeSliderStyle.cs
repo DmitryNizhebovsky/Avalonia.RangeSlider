@@ -1,10 +1,11 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Markup.Xaml.Styling;
-using Avalonia.RangeSlider.Enums;
 using Avalonia.Styling;
+using RangeSlider.Avalonia.Enums;
 
-namespace Avalonia.RangeSlider;
+namespace RangeSlider.Avalonia;
 
 public class RangeSliderStyle: AvaloniaObject, IStyle, IResourceProvider
 {
@@ -16,7 +17,7 @@ public class RangeSliderStyle: AvaloniaObject, IStyle, IResourceProvider
     public RangeSliderStyle(Uri baseUri)
     {
         _baseUri = baseUri;
-        var uri = new Uri("avares://Avalonia.RangeSlider/Themes/Fluent/RangeSlider.axaml");
+        var uri = new Uri("avares://RangeSlider.Avalonia/Themes/Fluent/RangeSlider.axaml");
         _controlsStyles = new StyleInclude(_baseUri)
         {
             Source = uri,
@@ -36,8 +37,8 @@ public class RangeSliderStyle: AvaloniaObject, IStyle, IResourceProvider
         set
         {
             var uri = new Uri(value == StyleTheme.Fluent
-                ? "avares://Avalonia.RangeSlider/Themes/Fluent/RangeSlider.axaml"
-                : "avares://Avalonia.RangeSlider/Themes/Material/RangeSlider.axaml");
+                ? "avares://RangeSlider.Avalonia/Themes/Fluent/RangeSlider.axaml"
+                : "avares://RangeSlider.Avalonia/Themes/Material/RangeSlider.axaml");
 
             _controlsStyles = new StyleInclude(_baseUri)
             {

@@ -19,7 +19,7 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-		<ProjectReference Include="..\Avalonia.RangeSlider\Avalonia.RangeSlider.csproj" />
+		<ProjectReference Include="..\RangeSlider.Avalonia\RangeSlider.Avalonia.csproj" />
 	</ItemGroup>
 	
 </Project>

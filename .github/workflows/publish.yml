@@ -16,8 +16,8 @@ jobs:
         with:
           dotnet-version: 6.0.x
       - name: Build and Pack
-        run: dotnet build Avalonia.RangeSlider --configuration Release
+        run: dotnet build RangeSlider.Avalonia --configuration Release
       - name: Publish to Nuget
-        run: dotnet nuget push "Avalonia.RangeSlider/bin/Release/*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: dotnet nuget push "RangeSlider.Avalonia/bin/Release/*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
       - name: Publish to GitHub Packages
-        run: dotnet nuget push "Avalonia.RangeSlider/bin/Release/*.nupkg" --api-key ${{secrets.GITHUB_TOKEN}} --source https://nuget.pkg.github.com/DmitryNizhebovsky/index.json --skip-duplicate
+        run: dotnet nuget push "RangeSlider.Avalonia/bin/Release/*.nupkg" --api-key ${{secrets.GITHUB_TOKEN}} --source https://nuget.pkg.github.com/DmitryNizhebovsky/index.json --skip-duplicate

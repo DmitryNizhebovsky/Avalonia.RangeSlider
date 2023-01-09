@@ -1,11 +1,12 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Layout;
 using Avalonia.Utilities;
 
-namespace Avalonia.RangeSlider.Controls.Primitives;
+namespace RangeSlider.Avalonia.Controls.Primitives;
 
 [PseudoClasses(":vertical", ":horizontal")]
 public class RangeTrack : Control

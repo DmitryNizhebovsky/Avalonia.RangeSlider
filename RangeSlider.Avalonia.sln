@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalonia.RangeSlider.SampleApp", "Avalonia.RangeSlider.SampleApp\Avalonia.RangeSlider.SampleApp.csproj", "{1AFE7DBC-B553-4859-92E7-F3EDA38BD69A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RangeSlider.Avalonia.SampleApp", "RangeSlider.Avalonia.SampleApp\RangeSlider.Avalonia.SampleApp.csproj", "{1AFE7DBC-B553-4859-92E7-F3EDA38BD69A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalonia.RangeSlider", "Avalonia.RangeSlider\Avalonia.RangeSlider.csproj", "{F2E3917D-CABD-4972-8918-089845004597}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RangeSlider.Avalonia", "RangeSlider.Avalonia\RangeSlider.Avalonia.csproj", "{F2E3917D-CABD-4972-8918-089845004597}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

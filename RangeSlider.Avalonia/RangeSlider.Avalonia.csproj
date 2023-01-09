@@ -6,7 +6,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Title>Avalonia.RangeSlider</Title>
+		<Title>RangeSlider.Avalonia</Title>
 		<Authors>Dmitry Nizhebovsky</Authors>
 		<Description>A range slider control for AvaloniaUI</Description>
 		<PackageProjectUrl>https://github.com/DmitryNizhebovsky/Avalonia.RangeSlider</PackageProjectUrl>
