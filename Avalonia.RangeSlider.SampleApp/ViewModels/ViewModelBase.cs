@@ -1,8 +1,7 @@
 using ReactiveUI;
 
-namespace Avalonia.RangeSlider.SampleApp.ViewModels
+namespace Avalonia.RangeSlider.SampleApp.ViewModels;
+
+public class ViewModelBase : ReactiveObject
 {
-    public class ViewModelBase : ReactiveObject
-    {
-    }
 }

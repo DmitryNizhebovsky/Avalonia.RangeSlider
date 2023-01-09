@@ -8,18 +8,19 @@
         <local:ViewLocator />
     </Application.DataTemplates>
 
-    <Application.Resources>
-        <themes:BundledTheme BaseTheme="Light" PrimaryColor="Teal" SecondaryColor="Amber" />
-    </Application.Resources>
+	<Application.Resources>
+		<themes:BundledTheme BaseTheme="Light" PrimaryColor="Teal" SecondaryColor="Amber" />
+	</Application.Resources>
+	
     <Application.Styles>
-        
         <FluentTheme Mode="Light" />
         <rangeSlider:RangeSliderStyle />
     </Application.Styles>
 
     <!-- Use for material -->
 
-    <!--<Application.Styles>
+    <!--
+	<Application.Styles>
         <StyleInclude Source="avares://Material.Avalonia/Material.Avalonia.Templates.xaml" />
         <rangeSlider:RangeSliderStyle Theme = "Material" />
     </Application.Styles>

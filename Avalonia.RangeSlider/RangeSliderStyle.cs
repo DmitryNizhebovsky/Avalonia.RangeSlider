@@ -9,41 +9,41 @@ namespace Avalonia.RangeSlider;
 public class RangeSliderStyle: AvaloniaObject, IStyle, IResourceProvider
 {
     private IStyle _controlsStyles;
-
-    private CancellationTokenSource? _currentCancellationTokenSource;
-    private Task? _currentThemeUpdateTask;
     private bool _isLoading;
     private IStyle? _loaded;
-    private readonly Uri?  _baseUri;
+    private readonly Uri _baseUri;
 
-    
-    public StyleTheme Theme
-    {
-        set
-        {
-            var uri = new Uri(value == StyleTheme.Fluent ? "avares://Avalonia.RangeSlider/Themes/RangeSlider.axaml" : "avares://Avalonia.RangeSlider/Themes/MaterialRangeSlider.axaml");
-            _controlsStyles = new StyleInclude(_baseUri)
-            {
-                Source = uri,
-            };
-        }
-    }
-    
-
-    public RangeSliderStyle(Uri? baseUri)
+    public RangeSliderStyle(Uri baseUri)
     {
         _baseUri = baseUri;
-        var uri = new Uri( "avares://Avalonia.RangeSlider/Themes/RangeSlider.axaml" );
+        var uri = new Uri("avares://Avalonia.RangeSlider/Themes/Fluent/RangeSlider.axaml");
         _controlsStyles = new StyleInclude(_baseUri)
         {
             Source = uri,
         };
     }
 
-
     public RangeSliderStyle(IServiceProvider serviceProvider)
-        : this(((IUriContext)serviceProvider.GetService(typeof(IUriContext)))?.BaseUri)
+        : this(((IUriContext)serviceProvider.GetService(typeof(IUriContext))).BaseUri)
     {
+    }
+
+    /// <summary>
+    /// Get or set the current theme.
+    /// </summary>
+    public StyleTheme Theme
+    {
+        set
+        {
+            var uri = new Uri(value == StyleTheme.Fluent
+                ? "avares://Avalonia.RangeSlider/Themes/Fluent/RangeSlider.axaml"
+                : "avares://Avalonia.RangeSlider/Themes/Material/RangeSlider.axaml");
+
+            _controlsStyles = new StyleInclude(_baseUri)
+            {
+                Source = uri,
+            };
+        }
     }
 
     /// <summary>
@@ -53,7 +53,9 @@ public class RangeSliderStyle: AvaloniaObject, IStyle, IResourceProvider
     {
         get
         {
-            if (_loaded != null) return _loaded!;
+            if (_loaded != null)
+                return _loaded;
+
             _isLoading = true;
 
             _loaded = new Styles() { _controlsStyles };
@@ -64,10 +66,11 @@ public class RangeSliderStyle: AvaloniaObject, IStyle, IResourceProvider
         }
     }
 
+    public IResourceHost? Owner =>
+        (Loaded as IResourceProvider)?.Owner;
 
-    public IResourceHost? Owner => (Loaded as IResourceProvider)?.Owner;
-
-    bool IResourceNode.HasResources => (Loaded as IResourceProvider)?.HasResources ?? false;
+    bool IResourceNode.HasResources =>
+        (Loaded as IResourceProvider)?.HasResources ?? false;
 
     public event EventHandler OwnerChanged
     {
@@ -98,9 +101,15 @@ public class RangeSliderStyle: AvaloniaObject, IStyle, IResourceProvider
         return false;
     }
 
-    void IResourceProvider.AddOwner(IResourceHost owner) => (Loaded as IResourceProvider)?.AddOwner(owner);
-    void IResourceProvider.RemoveOwner(IResourceHost owner) => (Loaded as IResourceProvider)?.RemoveOwner(owner);
-    IReadOnlyList<IStyle> IStyle.Children => _loaded?.Children ?? Array.Empty<IStyle>();
+    void IResourceProvider.AddOwner(IResourceHost owner) =>
+        (Loaded as IResourceProvider)?.AddOwner(owner);
 
-    public SelectorMatchResult TryAttach(IStyleable target, IStyleHost? host) => Loaded.TryAttach(target, host);
+    void IResourceProvider.RemoveOwner(IResourceHost owner) =>
+        (Loaded as IResourceProvider)?.RemoveOwner(owner);
+
+    IReadOnlyList<IStyle> IStyle.Children =>
+        _loaded?.Children ?? Array.Empty<IStyle>();
+
+    public SelectorMatchResult TryAttach(IStyleable target, IStyleHost? host) =>
+        Loaded.TryAttach(target, host);
 }

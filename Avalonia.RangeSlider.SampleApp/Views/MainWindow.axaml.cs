@@ -7,50 +7,52 @@ using Avalonia.RangeSlider.Enums;
 using Avalonia.Styling;
 using Avalonia.Themes.Fluent;
 
-namespace Avalonia.RangeSlider.SampleApp.Views
+namespace Avalonia.RangeSlider.SampleApp.Views;
+
+public class MainWindow : Window
 {
-    public class MainWindow : Window
+    private bool _isMatherial;
+
+    public MainWindow()
     {
-        private bool _isMatherial;
-
-        public MainWindow()
-        {
-            InitializeComponent();
+        InitializeComponent();
 #if DEBUG
-            this.AttachDevTools();
+        this.AttachDevTools();
 #endif
-        }
+    }
 
-        private void InitializeComponent()
+    private void InitializeComponent()
+    {
+        AvaloniaXamlLoader.Load(this);
+    }
+
+    private void Button_OnClick(object? sender, RoutedEventArgs e)
+    {
+        Application.Current?.Styles.Clear();
+
+        var appUri = new Uri("avares://Avalonia.RangeSlider.SampleApp/App.axaml");
+        var rStyle = new RangeSliderStyle(appUri);
+
+        if (!_isMatherial)
         {
-            AvaloniaXamlLoader.Load(this);
-        }
+            var baseAppUri = new Uri("avares://Avalonia.RangeSlider.SampleApp");
 
-        private void Button_OnClick(object? sender, RoutedEventArgs e)
+            var styleInclude = new StyleInclude(baseAppUri)
+            {
+                Source = new Uri("avares://Material.Avalonia/Material.Avalonia.Templates.xaml")
+            };
+
+            Application.Current?.Styles.Add(styleInclude);
+            rStyle.Theme = StyleTheme.Material;
+            Application.Current?.Styles.Add(rStyle);
+        }
+        else
         {
-            App.Current.Styles.Clear();
-            var appUri = new Uri("avares://Avalonia.RangeSlider.SampleApp/App.axaml");
-            var rStyle = new RangeSliderStyle(appUri);
-            if (!_isMatherial)
-            {
-                var baseAppUri = new Uri("avares://avares://Avalonia.RangeSlider.SampleApp");
-                var styleInclude = new StyleInclude(baseAppUri)
-                {
-                    Source = new Uri("avares://Material.Avalonia/Material.Avalonia.Templates.xaml")
-                };
-                Application.Current.Styles.Add(styleInclude);
-                rStyle.Theme = StyleTheme.Material;
-                Application.Current.Styles.Add(rStyle);
-            }
-            else
-            {
-                var fluent = new FluentTheme(appUri);
-                Application.Current.Styles.Add(fluent);
-                Application.Current.Styles.Add(rStyle);
-            }
-
-
-            _isMatherial = !_isMatherial;
+            var fluent = new FluentTheme(appUri);
+            Application.Current?.Styles.Add(fluent);
+            Application.Current?.Styles.Add(rStyle);
         }
+
+        _isMatherial = !_isMatherial;
     }
 }
