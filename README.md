@@ -1,4 +1,4 @@
-### About Avalonia.RangeSlider
+### About RangeSlider.Avalonia
 
 ---
 
@@ -33,7 +33,7 @@ For use:
 ```xml
  <Window
     ...
-    xmlns:rs="using:Avalonia.RangeSlider.Controls"
+    xmlns:rs="using:RangeSlider.Avalonia.Controls"
     ...>
     
     <Grid>
@@ -45,4 +45,4 @@ For use:
 ---
 
 ### License
-Avalonia.RangeSlider is licensed under the [MIT license](LICENSE.md).
+RangeSlider.Avalonia is licensed under the [MIT license](LICENSE.md).
