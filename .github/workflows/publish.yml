@@ -3,7 +3,7 @@ name: .NET Publish
 on:
   push:
     branches: [ master ]
-  paths-ignore:
+    paths-ignore:
       - '**/README.md'
       - '**/LICENSE.md'
       - '**/.gitattributes'
