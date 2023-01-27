@@ -5,6 +5,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Markup.Xaml.Styling;
 using Avalonia.Themes.Fluent;
+using Avalonia.Themes.Simple;
 using RangeSlider.Avalonia.Enums;
 
 namespace RangeSlider.Avalonia.SampleApp.Views;
@@ -45,7 +46,7 @@ public class MainWindow : Window
             Application.Current?.Styles.Add(styleInclude);
             rStyle.Theme = StyleTheme.Material;
             Application.Current?.Styles.Add(rStyle);
-        }
+		}
         else
         {
             var fluent = new FluentTheme(appUri);

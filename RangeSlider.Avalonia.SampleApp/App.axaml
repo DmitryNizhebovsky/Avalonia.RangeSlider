@@ -3,6 +3,7 @@
              xmlns:local="using:RangeSlider.Avalonia.SampleApp"
              xmlns:rangeSlider="clr-namespace:RangeSlider.Avalonia;assembly=RangeSlider.Avalonia"
              xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
+             xmlns:ava="Avalonia.Themes.Fluent"
              x:Class="RangeSlider.Avalonia.SampleApp.App">
     <Application.DataTemplates>
         <local:ViewLocator />

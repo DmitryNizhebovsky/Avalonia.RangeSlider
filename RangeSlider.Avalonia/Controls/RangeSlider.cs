@@ -528,29 +528,32 @@ public class RangeSlider : RangeBase
         }
     }
 
-    protected override void UpdateDataValidation<T>(AvaloniaProperty<T> property, BindingValue<T> value)
+    protected override void UpdateDataValidation(AvaloniaProperty property, BindingValueType state, Exception? error)
     {
-        if (property == LowerSelectedValueProperty || property == UpperSelectedValueProperty)
+	    if (property == LowerSelectedValueProperty || property == UpperSelectedValueProperty)
         {
-            DataValidationErrors.SetError(this, value.Error);
+            DataValidationErrors.SetError(this, error);
         }
     }
 
-    protected override void OnPropertyChanged<T>(AvaloniaPropertyChangedEventArgs<T> change)
-    {
-        base.OnPropertyChanged(change);
+	protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+	{
+		base.OnPropertyChanged(change);
+		var e = change as AvaloniaPropertyChangedEventArgs<Orientation>;
+		if (e is null) return;
 
-        if (change.Property == OrientationProperty)
-        {
-            UpdatePseudoClasses(change.NewValue.GetValueOrDefault<Orientation>());
-        }
-    }
+		var value = e.NewValue.GetValueOrDefault();
+		if (change.Property == OrientationProperty)
+		{
+			UpdatePseudoClasses(value);
+		}
+	}
 
-    /// <summary>
-    /// Snap the input 'value' to the closest tick.
-    /// </summary>
-    /// <param name="value">Value that want to snap to closest Tick.</param>
-    private double SnapToTick(double value)
+	/// <summary>
+	/// Snap the input 'value' to the closest tick.
+	/// </summary>
+	/// <param name="value">Value that want to snap to closest Tick.</param>
+	private double SnapToTick(double value)
     {
         if (IsSnapToTickEnabled)
         {
