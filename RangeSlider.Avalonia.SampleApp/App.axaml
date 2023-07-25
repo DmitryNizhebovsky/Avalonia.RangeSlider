@@ -1,29 +1,12 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="using:RangeSlider.Avalonia.SampleApp"
-             xmlns:rangeSlider="clr-namespace:RangeSlider.Avalonia;assembly=RangeSlider.Avalonia"
-             xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
-             x:Class="RangeSlider.Avalonia.SampleApp.App">
-    <Application.DataTemplates>
-        <local:ViewLocator />
-    </Application.DataTemplates>
+			 xmlns:themes="using:RangeSlider.Avalonia.Themes.Fluent"
+             x:Class="RangeSlider.Avalonia.SampleApp.App"
+             RequestedThemeVariant="Light">
 
-	<Application.Resources>
-		<themes:BundledTheme BaseTheme="Light" PrimaryColor="Teal" SecondaryColor="Amber" />
-	</Application.Resources>
-	
-    <Application.Styles>
-        <FluentTheme Mode="Light" />
-        <rangeSlider:RangeSliderStyle />
-    </Application.Styles>
-
-    <!-- Use for material -->
-
-    <!--
 	<Application.Styles>
-        <StyleInclude Source="avares://Material.Avalonia/Material.Avalonia.Templates.xaml" />
-        <rangeSlider:RangeSliderStyle Theme = "Material" />
-    </Application.Styles>
-    -->
-    
+		<FluentTheme />
+		<themes:RangeSliderTheme />
+	</Application.Styles>
+	
 </Application>

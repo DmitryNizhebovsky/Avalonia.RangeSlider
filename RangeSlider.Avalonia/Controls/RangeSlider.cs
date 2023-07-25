@@ -1,4 +1,5 @@
-﻿using Avalonia.Collections;
+﻿using Avalonia;
+using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Mixins;
@@ -7,10 +8,10 @@ using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
-using RangeSlider.Avalonia.Controls.Primitives;
+using Avalonia.Reactive;
 using Avalonia.Utilities;
+using RangeSlider.Avalonia.Controls.Primitives;
 using RangeBase = RangeSlider.Avalonia.Controls.Primitives.RangeBase;
-using Avalonia;
 
 namespace RangeSlider.Avalonia.Controls;
 
@@ -53,6 +54,34 @@ public class RangeSlider : RangeBase
         Both,
         Overlapped
     };
+
+    public class RangeSliderTemplateSettings : AvaloniaObject
+    {
+        private Rect _thumbBoundsRect;
+
+        /// <summary>
+        /// Defines the <see cref="ThumbBoundsRect"/> property.
+        /// </summary>
+        public static readonly DirectProperty<RangeSliderTemplateSettings, Rect> ThumbBoundsRectProperty =
+            AvaloniaProperty.RegisterDirect<RangeSliderTemplateSettings, Rect>(
+                nameof(ThumbBoundsRect),
+                p => p.ThumbBoundsRect,
+                (p, o) => p.ThumbBoundsRect = o);
+
+        /// <summary>
+        /// Used by <see cref="RangeSlider.Avalonia.Themes.Fluent"/> to define the thumb width.
+        /// </summary>
+        public Rect ThumbBoundsRect
+        {
+            get => _thumbBoundsRect;
+            set => SetAndRaise(ThumbBoundsRectProperty, ref _thumbBoundsRect, value);
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the TemplateSettings for the <see cref="RangeSlider"/>.
+    /// </summary>
+    public RangeSliderTemplateSettings TemplateSettings { get; } = new RangeSliderTemplateSettings();
 
     /// <summary>
     /// Defines the <see cref="Orientation"/> property.
@@ -105,7 +134,7 @@ public class RangeSlider : RangeBase
     /// <summary>
     /// Defines the <see cref="TicksProperty"/> property.
     /// </summary>
-    public static readonly StyledProperty<AvaloniaList<double>> TicksProperty =
+    public static readonly StyledProperty<AvaloniaList<double>?> TicksProperty =
         TickBar.TicksProperty.AddOwner<RangeSlider>();
 
     // Slider required parts
@@ -115,6 +144,7 @@ public class RangeSlider : RangeBase
     private Thumb _lowerThumb = null!;
     private Thumb _upperThumb = null!;
     private TrackThumb _currentTrackThumb = TrackThumb.None;
+    private IDisposable? _lowerThumbBoundsChangedListener;
 
     private const double Tolerance = 0.0001;
 
@@ -144,7 +174,7 @@ public class RangeSlider : RangeBase
     /// <summary>
     /// Defines the ticks to be drawn on the tick bar.
     /// </summary>
-    public AvaloniaList<double> Ticks
+    public AvaloniaList<double>? Ticks
     {
         get => GetValue(TicksProperty);
         set => SetValue(TicksProperty, value);
@@ -205,9 +235,8 @@ public class RangeSlider : RangeBase
     public bool IsThumbOverlap
     {
         get { return GetValue(IsThumbOverlapProperty); }
-        set { SetValue(IsThumbOverlapProperty, value); }
+        set { SetValue(IsThumbOverlapProperty, value);}
     }
-
     /// <summary>
     /// Gets or sets the interval between tick marks.
     /// </summary>
@@ -231,9 +260,11 @@ public class RangeSlider : RangeBase
     {
         base.OnApplyTemplate(e);
 
-        _track = e.NameScope.Find<RangeTrack>("PART_Track");
-        _lowerThumb = e.NameScope.Find<Thumb>("PART_LowerThumb");
-        _upperThumb = e.NameScope.Find<Thumb>("PART_UpperThumb");
+        _lowerThumbBoundsChangedListener?.Dispose();
+
+        _track = e.NameScope.Get<RangeTrack>("PART_Track");
+        _lowerThumb = e.NameScope.Get<Thumb>("PART_LowerThumb");
+        _upperThumb = e.NameScope.Get<Thumb>("PART_UpperThumb");
 
         ApplyThumbFlyoutPlacement(ThumbFlyoutPlacement);
 
@@ -243,6 +274,18 @@ public class RangeSlider : RangeBase
 
         _lowerThumb.AddHandler(PointerMovedEvent, PointerOverThumb, RoutingStrategies.Tunnel);
         _upperThumb.AddHandler(PointerMovedEvent, PointerOverThumb, RoutingStrategies.Tunnel);
+
+        _lowerThumbBoundsChangedListener = _lowerThumb.GetPropertyChangedObservable(BoundsProperty)
+            .Subscribe(_ => UpdateTemplateSettings());
+
+        UpdateTemplateSettings();
+    }
+
+    private void UpdateTemplateSettings()
+    {
+        var scale = IsThumbOverlap ? 1d : 2d;
+
+        TemplateSettings.ThumbBoundsRect = _lowerThumb.Bounds * scale;
     }
 
     protected override void OnKeyDown(KeyEventArgs e)
@@ -349,8 +392,8 @@ public class RangeSlider : RangeBase
         if (ThumbFlyoutPlacement == ThumbFlyoutPlacement.None)
             return;
 
-        if (sender is Thumb thumb)
-            FlyoutBase.ShowAttachedFlyout(thumb);
+        //if (sender is Thumb thumb)
+            //FlyoutBase.ShowAttachedFlyout(thumb);
     }
 
     private void TrackPressed(object? sender, PointerPressedEventArgs e)
@@ -528,21 +571,28 @@ public class RangeSlider : RangeBase
         }
     }
 
-    protected override void UpdateDataValidation<T>(AvaloniaProperty<T> property, BindingValue<T> value)
+    protected override void UpdateDataValidation(AvaloniaProperty property, BindingValueType state, Exception? error)
     {
         if (property == LowerSelectedValueProperty || property == UpperSelectedValueProperty)
         {
-            DataValidationErrors.SetError(this, value.Error);
+            DataValidationErrors.SetError(this, error);
         }
     }
 
-    protected override void OnPropertyChanged<T>(AvaloniaPropertyChangedEventArgs<T> change)
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
 
+        var e = change as AvaloniaPropertyChangedEventArgs<Orientation>;
+
+        if (e is null)
+            return;
+
+        var value = e.NewValue.GetValueOrDefault();
+
         if (change.Property == OrientationProperty)
         {
-            UpdatePseudoClasses(change.NewValue.GetValueOrDefault<Orientation>());
+            UpdatePseudoClasses(value);
         }
     }
 
@@ -599,23 +649,29 @@ public class RangeSlider : RangeBase
         if (placement == ThumbFlyoutPlacement.None)
             return;
 
-        var placementMode = FlyoutPlacementMode.Auto;
+        var placementMode = Orientation switch
+        {
+            Orientation.Horizontal => placement switch
+            {
+                ThumbFlyoutPlacement.TopLeft => PlacementMode.Top,
+                ThumbFlyoutPlacement.BottomRight => PlacementMode.Bottom,
+                _ => throw new ArgumentOutOfRangeException(nameof(placement), "Unexpected argument value")
+            },
+            Orientation.Vertical => placement switch
+            {
+                ThumbFlyoutPlacement.TopLeft => PlacementMode.Left,
+                ThumbFlyoutPlacement.BottomRight => PlacementMode.Right,
+                _ => throw new ArgumentOutOfRangeException(nameof(placement), "Unexpected argument value")
+            },
+            _ => throw new NotImplementedException("Unknown value")
+        };
 
-        if (placement == ThumbFlyoutPlacement.TopLeft && Orientation == Orientation.Horizontal)
-            placementMode = FlyoutPlacementMode.Top;
-        else if (placement == ThumbFlyoutPlacement.TopLeft && Orientation == Orientation.Vertical)
-            placementMode = FlyoutPlacementMode.Left;
-        else if (placement == ThumbFlyoutPlacement.BottomRight && Orientation == Orientation.Horizontal)
-            placementMode = FlyoutPlacementMode.Bottom;
-        else if (placement == ThumbFlyoutPlacement.BottomRight && Orientation == Orientation.Vertical)
-            placementMode = FlyoutPlacementMode.Right;
-
-        var lowerFlyout = FlyoutBase.GetAttachedFlyout(_lowerThumb);
-        if (lowerFlyout != null)
+        var lowerFlyout = FlyoutBase.GetAttachedFlyout(_lowerThumb) as PopupFlyoutBase;
+        if (lowerFlyout is not null)
             lowerFlyout.Placement = placementMode;
 
-        var upperFlyout = FlyoutBase.GetAttachedFlyout(_upperThumb);
-        if (upperFlyout != null)
+        var upperFlyout = FlyoutBase.GetAttachedFlyout(_upperThumb) as PopupFlyoutBase;
+        if (upperFlyout is not null)
             upperFlyout.Placement = placementMode;
     }
 
