@@ -146,7 +146,7 @@ public class RangeTrack : Control
 
     protected override Size MeasureOverride(Size availableSize)
     {
-        Size desiredSize = new Size(0.0, 0.0);
+        var desiredSize = new Size(0.0, 0.0);
 
         // Only measure thumbs.
         // Repeat buttons will be sized based on thumbs
@@ -273,12 +273,21 @@ public class RangeTrack : Control
         return arrangeSize;
     }
 
-    protected override void OnPropertyChanged<T>(AvaloniaPropertyChangedEventArgs<T> change)
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
 
+        var e = change as AvaloniaPropertyChangedEventArgs<Orientation>;
+
+        if (e is null)
+            return;
+
+        var value = e.NewValue.GetValueOrDefault();
+
         if (change.Property == OrientationProperty)
-            UpdatePseudoClasses(change.NewValue.GetValueOrDefault<Orientation>());
+        {
+            UpdatePseudoClasses(value);
+        }
     }
 
     private static void CoerceLength(ref double componentLength, double trackLength)

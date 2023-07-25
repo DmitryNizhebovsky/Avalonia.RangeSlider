@@ -3,44 +3,10 @@
         xmlns:vm="using:RangeSlider.Avalonia.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:local="using:RangeSlider.Avalonia.Controls"
-		xmlns:rangeSlider="clr-namespace:RangeSlider.Avalonia;assembly=RangeSlider.Avalonia"
-		mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="600"
+        xmlns:views="clr-namespace:RangeSlider.Avalonia.SampleApp.Views"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="RangeSlider.Avalonia.SampleApp.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="RangeSlider.Avalonia.SampleApp">
-	<Grid RowDefinitions="auto,*">
-		<Grid ColumnDefinitions="Auto, *,*" HorizontalAlignment="Stretch" Grid.Row="0">
-			<Button Margin="10" Click="Button_OnClick">Change Style</Button>
-			<StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
-				<Label Content="Lower value = "/>
-				<Label Content="{Binding LowerSelectedStr}"/>
-			</StackPanel>
-
-			<StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
-				<Label Content="Upper value = "/>
-				<Label Content="{Binding UpperSelectedStr}"/>
-			</StackPanel>
-		</Grid>
-
-		<Grid RowDefinitions="auto,*" Grid.Row="1" Margin="50,0">
-			<StackPanel Grid.Row="0">
-				<local:RangeSlider Minimum="0" Maximum="100" LowerSelectedValue="25" UpperSelectedValue="75" IsThumbOverlap="True" IsEnabled="False"/>
-				<local:RangeSlider Minimum="0" Maximum="100" LowerSelectedValue="{Binding LowerSelected}" UpperSelectedValue="{Binding UpperSelected}" IsThumbOverlap="True" ThumbFlyoutPlacement="TopLeft"/>
-				<local:RangeSlider Minimum="0" Maximum="100" LowerSelectedValue="{Binding LowerSelected}" UpperSelectedValue="{Binding UpperSelected}" IsThumbOverlap="True" MoveWholeRange="True"/>
-				<local:RangeSlider Minimum="0" Maximum="100" LowerSelectedValue="{Binding LowerSelected}" UpperSelectedValue="{Binding UpperSelected}" IsThumbOverlap="False"/>
-				<local:RangeSlider Minimum="0" Maximum="100" LowerSelectedValue="{Binding LowerSelected}" UpperSelectedValue="{Binding UpperSelected}" TickFrequency="5" IsSnapToTickEnabled="True" TickPlacement="BottomRight" IsThumbOverlap="True"/>
-				<local:RangeSlider Minimum="0" Maximum="100" LowerSelectedValue="{Binding LowerSelected}" UpperSelectedValue="{Binding UpperSelected}" TickFrequency="5" IsSnapToTickEnabled="True" TickPlacement="BottomRight" IsThumbOverlap="False"/>
-			</StackPanel>
-
-			<StackPanel Orientation="Horizontal" Grid.Row="1" >
-				<local:RangeSlider Minimum="0" Maximum="100" LowerSelectedValue="25" UpperSelectedValue="75" IsThumbOverlap="True" Orientation="Vertical" IsEnabled="False"/>
-				<local:RangeSlider Minimum="0" Maximum="100" LowerSelectedValue="{Binding LowerSelected}" UpperSelectedValue="{Binding UpperSelected}" IsThumbOverlap="True" Orientation="Vertical"/>
-				<local:RangeSlider Minimum="0" Maximum="100" LowerSelectedValue="{Binding LowerSelected}" UpperSelectedValue="{Binding UpperSelected}" IsThumbOverlap="True" MoveWholeRange="True" Orientation="Vertical"/>
-				<local:RangeSlider Minimum="0" Maximum="100" LowerSelectedValue="{Binding LowerSelected}" UpperSelectedValue="{Binding UpperSelected}" IsThumbOverlap="False" Orientation="Vertical"/>
-				<local:RangeSlider Minimum="0" Maximum="100" LowerSelectedValue="{Binding LowerSelected}" UpperSelectedValue="{Binding UpperSelected}" IsThumbOverlap="True" Orientation="Vertical" TickFrequency="5" IsSnapToTickEnabled="True" TickPlacement="TopLeft"/>
-				<local:RangeSlider Minimum="0" Maximum="100" LowerSelectedValue="{Binding LowerSelected}" UpperSelectedValue="{Binding UpperSelected}" IsThumbOverlap="False" Orientation="Vertical" TickFrequency="5" IsSnapToTickEnabled="True" TickPlacement="TopLeft"/>
-			</StackPanel>
-		</Grid>
-	</Grid>
+        Title="Avalonia.RangeSlider.SampleApp">
+	<views:MainView />
 </Window>

@@ -2,9 +2,9 @@ using ReactiveUI;
 
 namespace RangeSlider.Avalonia.SampleApp.ViewModels;
 
-public class MainWindowViewModel : ViewModelBase
+public class MainViewModel : ViewModelBase
 {
-    public MainWindowViewModel()
+    public MainViewModel()
     {
         LowerSelected = 25d;
         UpperSelected = 75d;
