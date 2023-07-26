@@ -276,7 +276,7 @@ public class RangeSlider : RangeBase
         _upperThumb.AddHandler(PointerMovedEvent, PointerOverThumb, RoutingStrategies.Tunnel);
 
         _lowerThumbBoundsChangedListener = _lowerThumb.GetPropertyChangedObservable(BoundsProperty)
-            .Subscribe(_ => UpdateTemplateSettings());
+            .Subscribe(new AnonymousObserver<AvaloniaPropertyChangedEventArgs>(_ => UpdateTemplateSettings()));
 
         UpdateTemplateSettings();
     }
