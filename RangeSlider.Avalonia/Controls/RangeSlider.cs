@@ -9,8 +9,8 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Reactive;
-using Avalonia.Utilities;
 using RangeSlider.Avalonia.Controls.Primitives;
+using RangeSlider.Avalonia.Utils;
 using RangeBase = RangeSlider.Avalonia.Controls.Primitives.RangeBase;
 
 namespace RangeSlider.Avalonia.Controls;
@@ -57,8 +57,6 @@ public class RangeSlider : RangeBase
 
     public class RangeSliderTemplateSettings : AvaloniaObject
     {
-        private Rect _thumbBoundsRect;
-
         /// <summary>
         /// Defines the <see cref="ThumbBoundsRect"/> property.
         /// </summary>
@@ -73,15 +71,15 @@ public class RangeSlider : RangeBase
         /// </summary>
         public Rect ThumbBoundsRect
         {
-            get => _thumbBoundsRect;
-            set => SetAndRaise(ThumbBoundsRectProperty, ref _thumbBoundsRect, value);
+            get;
+            set => SetAndRaise(ThumbBoundsRectProperty, ref field, value);
         }
     }
 
     /// <summary>
     /// Gets or sets the TemplateSettings for the <see cref="RangeSlider"/>.
     /// </summary>
-    public RangeSliderTemplateSettings TemplateSettings { get; } = new RangeSliderTemplateSettings();
+    public RangeSliderTemplateSettings TemplateSettings { get; } = new();
 
     /// <summary>
     /// Defines the <see cref="Orientation"/> property.
@@ -105,31 +103,31 @@ public class RangeSlider : RangeBase
     /// Defines the <see cref="FlyoutPlacement"/> property.
     /// </summary>
     public static readonly StyledProperty<ThumbFlyoutPlacement> ThumbFlyoutPlacementProperty =
-        AvaloniaProperty.Register<TickBar, ThumbFlyoutPlacement>(nameof(ThumbFlyoutPlacement), ThumbFlyoutPlacement.None);
+        AvaloniaProperty.Register<TickBar, ThumbFlyoutPlacement>(nameof(ThumbFlyoutPlacement));
 
     /// <summary>
     /// Defines the <see cref="IsSnapToTickEnabled"/> property.
     /// </summary>
     public static readonly StyledProperty<bool> IsSnapToTickEnabledProperty =
-        AvaloniaProperty.Register<RangeSlider, bool>(nameof(IsSnapToTickEnabled), false);
+        AvaloniaProperty.Register<RangeSlider, bool>(nameof(IsSnapToTickEnabled));
 
     /// <summary>
     /// Defines the <see cref="MoveWholeRange"/> property.
     /// </summary>
     public static readonly StyledProperty<bool> MoveWholeRangeProperty =
-        AvaloniaProperty.Register<RangeSlider, bool>(nameof(MoveWholeRange), false);
+        AvaloniaProperty.Register<RangeSlider, bool>(nameof(MoveWholeRange));
 
     /// <summary>
     /// Defines the <see cref="TickFrequency"/> property.
     /// </summary>
     public static readonly StyledProperty<double> TickFrequencyProperty =
-        AvaloniaProperty.Register<RangeSlider, double>(nameof(TickFrequency), 0.0);
+        AvaloniaProperty.Register<RangeSlider, double>(nameof(TickFrequency));
 
     /// <summary>
     /// Defines the <see cref="TickPlacement"/> property.
     /// </summary>
     public static readonly StyledProperty<TickPlacement> TickPlacementProperty =
-        AvaloniaProperty.Register<TickBar, TickPlacement>(nameof(TickPlacement), 0d);
+        AvaloniaProperty.Register<TickBar, TickPlacement>(nameof(TickPlacement));
 
     /// <summary>
     /// Defines the <see cref="TicksProperty"/> property.
@@ -138,8 +136,8 @@ public class RangeSlider : RangeBase
         TickBar.TicksProperty.AddOwner<RangeSlider>();
 
     // Slider required parts
-    private double _previousValue = 0.0;
-    private bool _isDragging = false;
+    private double _previousValue;
+    private bool _isDragging;
     private RangeTrack _track = null!;
     private Thumb _lowerThumb = null!;
     private Thumb _upperThumb = null!;
@@ -185,8 +183,8 @@ public class RangeSlider : RangeBase
     /// </summary>
     public Orientation Orientation
     {
-        get { return GetValue(OrientationProperty); }
-        set { SetValue(OrientationProperty, value); }
+        get => GetValue(OrientationProperty);
+        set => SetValue(OrientationProperty, value);
     }
 
     /// <summary>
@@ -194,8 +192,8 @@ public class RangeSlider : RangeBase
     /// </summary>
     public bool MoveWholeRange
     {
-        get { return GetValue(MoveWholeRangeProperty); }
-        set { SetValue(MoveWholeRangeProperty, value); }
+        get => GetValue(MoveWholeRangeProperty);
+        set => SetValue(MoveWholeRangeProperty, value);
     }
 
     /// <summary>
@@ -207,8 +205,8 @@ public class RangeSlider : RangeBase
     /// </value>
     public bool IsDirectionReversed
     {
-        get { return GetValue(IsDirectionReversedProperty); }
-        set { SetValue(IsDirectionReversedProperty, value); }
+        get => GetValue(IsDirectionReversedProperty);
+        set => SetValue(IsDirectionReversedProperty, value);
     }
 
     /// <summary>
@@ -216,8 +214,8 @@ public class RangeSlider : RangeBase
     /// </summary>
     public ThumbFlyoutPlacement ThumbFlyoutPlacement
     {
-        get { return GetValue(ThumbFlyoutPlacementProperty); }
-        set { SetValue(ThumbFlyoutPlacementProperty, value); }
+        get => GetValue(ThumbFlyoutPlacementProperty);
+        set => SetValue(ThumbFlyoutPlacementProperty, value);
     }
 
     /// <summary>
@@ -225,8 +223,8 @@ public class RangeSlider : RangeBase
     /// </summary>
     public bool IsSnapToTickEnabled
     {
-        get { return GetValue(IsSnapToTickEnabledProperty); }
-        set { SetValue(IsSnapToTickEnabledProperty, value); }
+        get => GetValue(IsSnapToTickEnabledProperty);
+        set => SetValue(IsSnapToTickEnabledProperty, value);
     }
 
     /// <summary>
@@ -234,16 +232,16 @@ public class RangeSlider : RangeBase
     /// </summary>
     public bool IsThumbOverlap
     {
-        get { return GetValue(IsThumbOverlapProperty); }
-        set { SetValue(IsThumbOverlapProperty, value);}
+        get => GetValue(IsThumbOverlapProperty);
+        set => SetValue(IsThumbOverlapProperty, value);
     }
     /// <summary>
     /// Gets or sets the interval between tick marks.
     /// </summary>
     public double TickFrequency
     {
-        get { return GetValue(TickFrequencyProperty); }
-        set { SetValue(TickFrequencyProperty, value); }
+        get => GetValue(TickFrequencyProperty);
+        set => SetValue(TickFrequencyProperty, value);
     }
 
     /// <summary>
@@ -252,8 +250,8 @@ public class RangeSlider : RangeBase
     /// </summary>
     public TickPlacement TickPlacement
     {
-        get { return GetValue(TickPlacementProperty); }
-        set { SetValue(TickPlacementProperty, value); }
+        get => GetValue(TickPlacementProperty);
+        set => SetValue(TickPlacementProperty, value);
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -357,16 +355,16 @@ public class RangeSlider : RangeBase
                 foreach (var tick in ticks)
                 {
                     // Find the smallest tick greater than value or the largest tick less than value
-                    if (greaterThan && MathUtilities.GreaterThan(tick, value) &&
-                        (MathUtilities.LessThan(tick, next) || Math.Abs(next - value) < Tolerance)
-                        || !greaterThan && MathUtilities.LessThan(tick, value) &&
-                        (MathUtilities.GreaterThan(tick, next) || Math.Abs(next - value) < Tolerance))
+                    if (greaterThan && MathUtils.GreaterThan(tick, value) &&
+                        (MathUtils.LessThan(tick, next) || Math.Abs(next - value) < Tolerance)
+                        || !greaterThan && MathUtils.LessThan(tick, value) &&
+                        (MathUtils.GreaterThan(tick, next) || Math.Abs(next - value) < Tolerance))
                     {
                         next = tick;
                     }
                 }
             }
-            else if (MathUtilities.GreaterThan(TickFrequency, 0.0))
+            else if (MathUtils.GreaterThan(TickFrequency, 0.0))
             {
                 // Find the current tick we are at
                 var tickNumber = Math.Round((value - Minimum) / TickFrequency);
@@ -501,7 +499,7 @@ public class RangeSlider : RangeBase
         trackLength -= 2.0 * thumbLength;
         pointNum -= thumbLength;
 
-        var logicalPos = MathUtilities.Clamp(pointNum / trackLength, 0.0d, 1.0d);
+        var logicalPos = Math.Clamp(pointNum / trackLength, 0.0d, 1.0d);
         var invert = orient
             ? IsDirectionReversed ? 1 : 0
             : IsDirectionReversed ? 0 : 1;
@@ -552,23 +550,21 @@ public class RangeSlider : RangeBase
 
         if (Math.Abs(lowerThumbPos + thumbHalfWidth - pointerPos) <= thumbHalfWidth)
             return TrackThumb.Lower;
-        else if (Math.Abs(upperThumbPos + thumbHalfWidth - pointerPos) <= thumbHalfWidth)
+        if (Math.Abs(upperThumbPos + thumbHalfWidth - pointerPos) <= thumbHalfWidth)
             return TrackThumb.Upper;
 
         if (Math.Abs(lowerThumbPos - pointerPos) < Math.Abs(upperThumbPos - pointerPos))
         {
             if (pointerPos < lowerThumbPos)
                 return orient ? TrackThumb.OuterLower : TrackThumb.InnerLower;
-            else
-                return orient ? TrackThumb.InnerLower : TrackThumb.OuterLower;
+            
+            return orient ? TrackThumb.InnerLower : TrackThumb.OuterLower;
         }
-        else
-        {
-            if (pointerPos < upperThumbPos)
-                return orient ? TrackThumb.InnerUpper : TrackThumb.OuterUpper;
-            else
-                return orient ? TrackThumb.OuterUpper : TrackThumb.InnerUpper;
-        }
+
+        if (pointerPos < upperThumbPos)
+            return orient ? TrackThumb.InnerUpper : TrackThumb.OuterUpper;
+        
+        return orient ? TrackThumb.OuterUpper : TrackThumb.InnerUpper;
     }
 
     protected override void UpdateDataValidation(AvaloniaProperty property, BindingValueType state, Exception? error)
@@ -616,29 +612,29 @@ public class RangeSlider : RangeBase
             {
                 foreach (var tick in ticks)
                 {
-                    if (MathUtilities.AreClose(tick, value))
+                    if (MathUtils.AreClose(tick, value))
                     {
                         return value;
                     }
 
-                    if (MathUtilities.LessThan(tick, value) && MathUtilities.GreaterThan(tick, previous))
+                    if (MathUtils.LessThan(tick, value) && MathUtils.GreaterThan(tick, previous))
                     {
                         previous = tick;
                     }
-                    else if (MathUtilities.GreaterThan(tick, value) && MathUtilities.LessThan(tick, next))
+                    else if (MathUtils.GreaterThan(tick, value) && MathUtils.LessThan(tick, next))
                     {
                         next = tick;
                     }
                 }
             }
-            else if (MathUtilities.GreaterThan(TickFrequency, 0.0))
+            else if (MathUtils.GreaterThan(TickFrequency, 0.0))
             {
                 previous = Minimum + Math.Round((value - Minimum) / TickFrequency) * TickFrequency;
                 next = Math.Min(Maximum, previous + TickFrequency);
             }
 
             // Choose the closest value between previous and next. If tie, snap to 'next'.
-            value = MathUtilities.GreaterThanOrClose(value, (previous + next) * 0.5) ? next : previous;
+            value = MathUtils.GreaterThanOrClose(value, (previous + next) * 0.5) ? next : previous;
         }
 
         return value;

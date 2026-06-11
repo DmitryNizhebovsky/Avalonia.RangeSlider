@@ -4,7 +4,7 @@ using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Layout;
-using Avalonia.Utilities;
+using RangeSlider.Avalonia.Utils;
 
 namespace RangeSlider.Avalonia.Controls.Primitives;
 
@@ -74,74 +74,74 @@ public class RangeTrack : Control
 
     public double Minimum
     {
-        get { return _minimum; }
-        set { SetAndRaise(MinimumProperty, ref _minimum, value); }
+        get => _minimum;
+        set => SetAndRaise(MinimumProperty, ref _minimum, value);
     }
 
     public double Maximum
     {
-        get { return _maximum; }
-        set { SetAndRaise(MaximumProperty, ref _maximum, value); }
+        get => _maximum;
+        set => SetAndRaise(MaximumProperty, ref _maximum, value);
     }
 
     public double LowerSelectedValue
     {
-        get { return _lowerSelectedValue; }
-        set { SetAndRaise(LowerSelectedValueProperty, ref _lowerSelectedValue, value); }
+        get => _lowerSelectedValue;
+        set => SetAndRaise(LowerSelectedValueProperty, ref _lowerSelectedValue, value);
     }
 
     public double UpperSelectedValue
     {
-        get { return _upperSelectedValue; }
-        set { SetAndRaise(UpperSelectedValueProperty, ref _upperSelectedValue, value); }
+        get => _upperSelectedValue;
+        set => SetAndRaise(UpperSelectedValueProperty, ref _upperSelectedValue, value);
     }
 
     public double ViewportSize
     {
-        get { return GetValue(ViewportSizeProperty); }
-        set { SetValue(ViewportSizeProperty, value); }
+        get => GetValue(ViewportSizeProperty);
+        set => SetValue(ViewportSizeProperty, value);
     }
 
     public Orientation Orientation
     {
-        get { return GetValue(OrientationProperty); }
-        set { SetValue(OrientationProperty, value); }
+        get => GetValue(OrientationProperty);
+        set => SetValue(OrientationProperty, value);
     }
 
     public Thumb LowerThumb
     {
-        get { return GetValue(LowerThumbProperty); }
-        set { SetValue(LowerThumbProperty, value); }
+        get => GetValue(LowerThumbProperty);
+        set => SetValue(LowerThumbProperty, value);
     }
 
     public Thumb UpperThumb
     {
-        get { return GetValue(UpperThumbProperty); }
-        set { SetValue(UpperThumbProperty, value); }
+        get => GetValue(UpperThumbProperty);
+        set => SetValue(UpperThumbProperty, value);
     }
 
     public RepeatButton BackgroundButton
     {
-        get { return GetValue(BackgroundButtonProperty); }
-        set { SetValue(BackgroundButtonProperty, value); }
+        get => GetValue(BackgroundButtonProperty);
+        set => SetValue(BackgroundButtonProperty, value);
     }
 
     public RepeatButton ForegroundButton
     {
-        get { return GetValue(ForegroundButtonProperty); }
-        set { SetValue(ForegroundButtonProperty, value); }
+        get => GetValue(ForegroundButtonProperty);
+        set => SetValue(ForegroundButtonProperty, value);
     }
 
     public bool IsDirectionReversed
     {
-        get { return GetValue(IsDirectionReversedProperty); }
-        set { SetValue(IsDirectionReversedProperty, value); }
+        get => GetValue(IsDirectionReversedProperty);
+        set => SetValue(IsDirectionReversedProperty, value);
     }
 
     public bool IsThumbOverlap
     {
-        get { return GetValue(IsThumbOverlapProperty); }
-        set { SetValue(IsThumbOverlapProperty, value); }
+        get => GetValue(IsThumbOverlapProperty);
+        set => SetValue(IsThumbOverlapProperty, value);
     }
 
     protected override Size MeasureOverride(Size availableSize)
@@ -359,7 +359,7 @@ public class RangeTrack : Control
         thumbLength = Math.Max(thumbMinLength, thumbLength);
 
         // If we don't have enough content to scroll, disable the track.
-        var notEnoughContentToScroll = MathUtilities.LessThanOrClose(range, 0.0);
+        var notEnoughContentToScroll = MathUtils.LessThanOrClose(range, 0.0);
         var thumbLongerThanTrack = thumbLength > sliderLength;
 
         // if there's not enough content or the thumb is longer than the track, 

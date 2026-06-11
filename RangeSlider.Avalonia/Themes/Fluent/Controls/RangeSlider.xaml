@@ -105,7 +105,7 @@
 								  Background="{DynamicResource SliderContainerBackground}">
 								<Grid.Styles>
 									<Style Selector="TickBar">
-										<Setter Property="ReservedSpace" Value="{Binding Path='TemplateSettings.ThumbBoundsRect' RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:RangeSlider}}}}" />
+										<Setter Property="ReservedSpace" Value="{Binding Path='TemplateSettings.ThumbBoundsRect', RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:RangeSlider}}}" />
 									</Style>
 								</Grid.Styles>
 								<Grid x:Name="HorizontalTemplate"
@@ -233,7 +233,7 @@
 								  Margin="{TemplateBinding Padding}">
 								<Grid.Styles>
 									<Style Selector="TickBar">
-										<Setter Property="ReservedSpace" Value="{Binding Path='TemplateSettings.ThumbBoundsRect' RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:RangeSlider}}}}" />
+										<Setter Property="ReservedSpace" Value="{Binding Path='TemplateSettings.ThumbBoundsRect', RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:RangeSlider}}}" />
 									</Style>
 								</Grid.Styles>
 								<Grid x:Name="VerticalTemplate"

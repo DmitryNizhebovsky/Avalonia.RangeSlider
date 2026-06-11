@@ -1,7 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
-using Avalonia.Utilities;
 
 namespace RangeSlider.Avalonia.Controls.Primitives;
 
@@ -60,11 +59,7 @@ public abstract class RangeBase : TemplatedControl
     public static readonly StyledProperty<double> LargeChangeProperty =
         AvaloniaProperty.Register<RangeBase, double>(nameof(LargeChange), 10);
 
-    private double _minimum;
-    private double _maximum = 100.0;
-    private double _lowerSelectedValue;
-    private double _upperSelectedValue;
-    private bool _upperValueInitializedNonZeroValue = false;
+    private bool _upperValueInitializedNonZeroValue;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RangeBase"/> class.
@@ -78,10 +73,7 @@ public abstract class RangeBase : TemplatedControl
     /// </summary>
     public double Minimum
     {
-        get
-        {
-            return _minimum;
-        }
+        get;
 
         set
         {
@@ -92,14 +84,14 @@ public abstract class RangeBase : TemplatedControl
 
             if (IsInitialized)
             {
-                SetAndRaise(MinimumProperty, ref _minimum, value);
+                SetAndRaise(MinimumProperty, ref field, value);
                 Maximum = ValidateMaximum(Maximum);
                 LowerSelectedValue = ValidateLowerValue(LowerSelectedValue);
                 UpperSelectedValue = ValidateUpperValue(UpperSelectedValue);
             }
             else
             {
-                SetAndRaise(MinimumProperty, ref _minimum, value);
+                SetAndRaise(MinimumProperty, ref field, value);
             }
         }
     }
@@ -109,10 +101,7 @@ public abstract class RangeBase : TemplatedControl
     /// </summary>
     public double Maximum
     {
-        get
-        {
-            return _maximum;
-        }
+        get;
 
         set
         {
@@ -124,26 +113,23 @@ public abstract class RangeBase : TemplatedControl
             if (IsInitialized)
             {
                 value = ValidateMaximum(value);
-                SetAndRaise(MaximumProperty, ref _maximum, value);
+                SetAndRaise(MaximumProperty, ref field, value);
                 LowerSelectedValue = ValidateLowerValue(LowerSelectedValue);
                 UpperSelectedValue = ValidateUpperValue(UpperSelectedValue);
             }
             else
             {
-                SetAndRaise(MaximumProperty, ref _maximum, value);
+                SetAndRaise(MaximumProperty, ref field, value);
             }
         }
-    }
+    } = 100.0;
 
     /// <summary>
     /// Gets or sets the lower selected value.
     /// </summary>
     public double LowerSelectedValue
     {
-        get
-        {
-            return _lowerSelectedValue;
-        }
+        get;
 
         set
         {
@@ -155,11 +141,11 @@ public abstract class RangeBase : TemplatedControl
             if (IsInitialized)
             {
                 value = ValidateLowerValue(value);
-                SetAndRaise(LowerSelectedValueProperty, ref _lowerSelectedValue, value);
+                SetAndRaise(LowerSelectedValueProperty, ref field, value);
             }
             else
             {
-                SetAndRaise(LowerSelectedValueProperty, ref _lowerSelectedValue, value);
+                SetAndRaise(LowerSelectedValueProperty, ref field, value);
             }
         }
     }
@@ -169,10 +155,7 @@ public abstract class RangeBase : TemplatedControl
     /// </summary>
     public double UpperSelectedValue
     {
-        get
-        {
-            return _upperSelectedValue;
-        }
+        get;
 
         set
         {
@@ -185,11 +168,11 @@ public abstract class RangeBase : TemplatedControl
             {
                 value = ValidateUpperValue(value);
                 _upperValueInitializedNonZeroValue = value > 0.0;
-                SetAndRaise(UpperSelectedValueProperty, ref _upperSelectedValue, value);
+                SetAndRaise(UpperSelectedValueProperty, ref field, value);
             }
             else
             {
-                SetAndRaise(UpperSelectedValueProperty, ref _upperSelectedValue, value);
+                SetAndRaise(UpperSelectedValueProperty, ref field, value);
             }
         }
     }
@@ -242,8 +225,8 @@ public abstract class RangeBase : TemplatedControl
     private double ValidateLowerValue(double value)
     {
         return _upperValueInitializedNonZeroValue
-            ? MathUtilities.Clamp(value, Minimum, UpperSelectedValue)
-            : MathUtilities.Clamp(value, Minimum, Maximum);
+            ? Math.Clamp(value, Minimum, UpperSelectedValue)
+            : Math.Clamp(value, Minimum, Maximum);
     }
 
     /// <summary>
@@ -253,6 +236,6 @@ public abstract class RangeBase : TemplatedControl
     /// <returns>The coerced value.</returns>
     private double ValidateUpperValue(double value)
     {
-        return MathUtilities.Clamp(value, LowerSelectedValue, Maximum);
+        return Math.Clamp(value, LowerSelectedValue, Maximum);
     }
 }

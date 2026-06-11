@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="RangeSlider.Avalonia.SampleApp/RangeSlider.Avalonia.SampleApp.csproj" />
+  <Project Path="RangeSlider.Avalonia/RangeSlider.Avalonia.csproj" />
+</Solution>
