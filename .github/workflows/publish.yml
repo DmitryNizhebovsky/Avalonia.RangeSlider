@@ -9,7 +9,7 @@ on:
       - "**/LICENSE.md"
       - "**/.gitattributes"
       - "**/.gitignore"
-      - Images/**
+      - "Images/**"
 
 permissions:
   contents: read
