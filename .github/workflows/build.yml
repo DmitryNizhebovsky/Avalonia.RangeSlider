@@ -1,11 +1,13 @@
-name: .NET Build
+name: Build
+
 on:
   push:
     branches-ignore:
-      - 'master'
+      - master
   pull_request:
     branches:
       - '**:**'
+
 jobs:
   build:
     runs-on: ubuntu-latest

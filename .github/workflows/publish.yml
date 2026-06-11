@@ -1,4 +1,4 @@
-name: .NET Publish
+name: BuildAndPublish
 
 on:
   push:
@@ -10,11 +10,11 @@ on:
       - "**/.gitattributes"
       - "**/.gitignore"
       - Images/**
-      - 
+
 permissions:
   contents: read
   id-token: write
-  
+
 jobs:
   publish:
     runs-on: ubuntu-latest
