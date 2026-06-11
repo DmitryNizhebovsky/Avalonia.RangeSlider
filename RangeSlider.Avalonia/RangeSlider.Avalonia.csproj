@@ -10,7 +10,7 @@
         <Authors>Dmitry Nizhebovsky</Authors>
         <Description>A range slider control for AvaloniaUI</Description>
         <PackageProjectUrl>https://github.com/DmitryNizhebovsky/Avalonia.RangeSlider</PackageProjectUrl>
-        <PackageLicenseUrl>https://github.com/DmitryNizhebovsky/Avalonia.RangeSlider/blob/master/LICENSE.md</PackageLicenseUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/DmitryNizhebovsky/Avalonia.RangeSlider.git</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageTags>controls range-slider cross-platform avalonia avaloniaui csharp c-sharp ui</PackageTags>
